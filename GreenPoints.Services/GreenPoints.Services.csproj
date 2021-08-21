@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GreenPoints.Data\GreenPoints.Data.csproj" />
+    <ProjectReference Include="..\GreenPoints.Domain\GreenPoints.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
