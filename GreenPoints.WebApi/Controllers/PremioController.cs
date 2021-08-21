@@ -28,6 +28,5 @@ namespace GreenPoints.WebApi.Controllers
         {
             return await _premioService.GetById(id);
         }
-        
     }
 }
