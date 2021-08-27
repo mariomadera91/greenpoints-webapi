@@ -1,56 +1,26 @@
-﻿using GreenPoints.Data.Context;
-using GreenPoints.Domain.Entities;
+﻿using GreenPoints.Domain;
 using GreenPoints.Services.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace GreenPoints.Services.Services
 {
     public class PremioService : IPremioService
     {
-        public async Task<List<Premio>> Get()
+        public IPremioRepository _premioRepository { get; set; }
+
+        public PremioService(IPremioRepository premioRepository)
         {
-            var premios = new List<Premio>();
-
-            premios.Add(new Premio()
-            {
-                Id = 1,
-                Descripcion = "50% Starbucks",
-                Puntos = 30,
-                Activo = true,
-                Fecha = new DateTime(2021, 8, 20),
-                Stock = 10
-            });
-
-            premios.Add(new Premio()
-            {
-                Id = 2,
-                Descripcion = "2 x 1 Big Mac",
-                Puntos = 30,
-                Activo = true,
-                Fecha = new DateTime(2021, 8, 20),
-                Stock = 10
-            });
-
-            return premios;
+            _premioRepository = premioRepository;
         }
 
-        public async Task<Premio> GetById(int id)
+        public List<Premio> Get()
         {
-            var context = new GreenPointsContext();
+            return _premioRepository.Get();
+        }
 
-            return new Premio()
-            {
-                Id = 1,
-                Descripcion = "50% Starbucks",
-                Puntos = 30,
-                Activo = true,
-                Fecha = new DateTime(2021, 8, 20),
-                Stock = 10
-            };
+        public Premio GetById(int id)
+        {
+            return _premioRepository.GetById(id);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using GreenPoints.Domain.Entities;
+﻿using GreenPoints.Domain;
 using GreenPoints.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -18,15 +18,26 @@ namespace GreenPoints.WebApi.Controllers
         }
         
         [HttpGet]
-        public async Task<ActionResult<List<Premio>>> Get()
+        public ActionResult<List<Premio>> Get()
         {
-            return await _premioService.Get();
+            var premios = _premioService.Get();
+
+            return Ok(premios);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Premio>> GetById(int id)
         {
-            return await _premioService.GetById(id);
+            var premio = _premioService.GetById(id);
+
+            if(premio == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(premio);
+            }
         }
     }
 }

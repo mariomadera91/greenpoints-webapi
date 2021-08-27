@@ -1,13 +1,12 @@
-﻿using GreenPoints.Domain.Entities;
+﻿using GreenPoints.Domain;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace GreenPoints.Services.Interfaces
 {
     public interface IPremioService
     {
-        Task<List<Premio>> Get();
+        List<Premio> Get();
 
-        Task<Premio> GetById(int id);
+        Premio GetById(int id);
     }
 }
