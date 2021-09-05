@@ -9,9 +9,14 @@ namespace GreenPoints.Data
         public void Configure(EntityTypeBuilder<SocioReciclador> builder)
         {
             builder.ToTable("Socio_Reciclador", "tpf");
-            builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnName("socio_id");
             builder.Property(x => x.FechaNac).HasColumnName("fecha_nac");
+
+            //builder.Ignore(x => x.UserName);
+            //builder.Ignore(x => x.Password);
+            //builder.Ignore(x => x.Rol);
+            //builder.Ignore(x => x.Imagen);
+            //builder.Ignore(x => x.Activo);
         }
     }
 }

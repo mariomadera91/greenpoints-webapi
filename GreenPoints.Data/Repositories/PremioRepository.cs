@@ -6,21 +6,20 @@ namespace GreenPoints.Data
 {
     public class PremioRepository : IPremioRepository
     {
-        public GreenPointsContext _context { get; set; }
-
-        public PremioRepository()
-        {
-            _context = new GreenPointsContext();
-        }
-
         public List<Premio> Get()
         {
-            return _context.Premios.ToList();
+            using (var _context = new GreenPointsContext())
+            {
+                return _context.Premios.ToList();
+            }
         }
 
         public Premio GetById(int id)
         {
-            return _context.Premios.Where(x => x.Id == id).FirstOrDefault();
+            using (var _context = new GreenPointsContext())
+            {
+                return _context.Premios.Where(x => x.Id == id).FirstOrDefault();
+            }
         }
     }
 }

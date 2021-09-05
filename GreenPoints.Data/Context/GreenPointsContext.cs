@@ -38,6 +38,7 @@ namespace GreenPoints.Data
             modelBuilder.ApplyConfiguration(new SocioRecicladorConfig());
             modelBuilder.ApplyConfiguration(new SponsorConfig());
             modelBuilder.ApplyConfiguration(new TipoReciclableConfig());
+            modelBuilder.ApplyConfiguration(new UsuarioConfig());
         }
 
         public DbSet<Configuracion> Configuraciones { get; set; }
@@ -53,5 +54,6 @@ namespace GreenPoints.Data
         public DbSet<SocioReciclador> SociosRecicladores { get; set; }
         public DbSet<Sponsor> Sponsors { get; set; }
         public DbSet<TipoReciclable> TiposReciclables { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
     }
 }
