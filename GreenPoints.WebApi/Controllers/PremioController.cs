@@ -1,5 +1,6 @@
 ﻿using GreenPoints.Domain;
 using GreenPoints.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,7 +17,8 @@ namespace GreenPoints.WebApi.Controllers
         {
             _premioService = premioService;
         }
-        
+
+        [Authorize]
         [HttpGet]
         public ActionResult<List<Premio>> Get()
         {
@@ -25,6 +27,7 @@ namespace GreenPoints.WebApi.Controllers
             return Ok(premios);
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Premio>> GetById(int id)
         {
