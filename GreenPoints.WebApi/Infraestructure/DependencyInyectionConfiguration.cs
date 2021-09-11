@@ -1,5 +1,6 @@
 ﻿using GreenPoints.Data;
 using GreenPoints.Domain;
+using GreenPoints.Services;
 using GreenPoints.Services.Interfaces;
 using GreenPoints.Services.Services;
 using Microsoft.Extensions.Configuration;
@@ -16,10 +17,12 @@ namespace GreenPoints.WebApi
             // services
             services.AddTransient<IPremioService, PremioService>();
             services.AddTransient<IUsuarioService, UsuarioService>();
+            services.AddTransient<ISocioRecicladorService, SocioRecicladorService>();
 
             // repositories
             services.AddTransient<IPremioRepository, PremioRepository>();
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
+            services.AddTransient<ISocioRecicladorRepository, SocioRecicladorRepository>();
 
             return services;
         }
