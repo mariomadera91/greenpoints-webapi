@@ -2,7 +2,7 @@
 
 namespace GreenPoints.Domain
 {
-    public class SocioReciclador: IdentifierEntity
+    public class SocioReciclador : IdentifierEntity
     {
         public string Nombre { get; set; }
         public string Apellido { get; set; }

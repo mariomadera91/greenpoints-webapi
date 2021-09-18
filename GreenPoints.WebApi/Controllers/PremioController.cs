@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace GreenPoints.WebApi.Controllers
 {
-    [Route("premio")]
     [ApiController]
+    [Route("premio")]
     public class PremioController : Controller
     {
         private readonly IPremioService _premioService;
@@ -29,7 +29,7 @@ namespace GreenPoints.WebApi.Controllers
 
         [Authorize]
         [HttpGet("{id}")]
-        public async Task<ActionResult<Premio>> GetById(int id)
+        public ActionResult GetById(int id)
         {
             var premio = _premioService.GetById(id);
 

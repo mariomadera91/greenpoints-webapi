@@ -10,12 +10,7 @@ namespace GreenPoints.Data
         {
             builder.ToTable("Punto_Reciclaje", "tpf");
             builder.Property(x => x.Id).HasColumnName("punto_id");
-
-            //builder.Ignore(x => x.UserName);
-            //builder.Ignore(x => x.Password);
-            //builder.Ignore(x => x.Rol);
-            //builder.Ignore(x => x.Imagen);
-            //builder.Ignore(x => x.Activo);
+            builder.Property(x => x.UsuarioId).HasColumnName("usuario_id");
         }
     }
 }

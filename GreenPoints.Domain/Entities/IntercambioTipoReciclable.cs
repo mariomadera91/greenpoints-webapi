@@ -5,6 +5,7 @@
         public int IntercambioId { get; set; }
         public int TipoId { get; set; }
         public float Peso { get; set; }
+        public int Puntos { get; set; }
         public int LoteId { get; set; }
         public TipoReciclable Tipo { get; set; }
         public Intercambio Intercambio { get; set; }

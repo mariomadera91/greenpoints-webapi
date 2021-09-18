@@ -18,11 +18,13 @@ namespace GreenPoints.WebApi
             services.AddTransient<IPremioService, PremioService>();
             services.AddTransient<IUsuarioService, UsuarioService>();
             services.AddTransient<ISocioRecicladorService, SocioRecicladorService>();
+            services.AddTransient<IIntercambioService, IntercambioService>();
 
             // repositories
             services.AddTransient<IPremioRepository, PremioRepository>();
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
             services.AddTransient<ISocioRecicladorRepository, SocioRecicladorRepository>();
+            services.AddTransient<IIntercambioRepository, IntercambioRepository>();
 
             return services;
         }

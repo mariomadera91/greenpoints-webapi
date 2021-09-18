@@ -13,6 +13,7 @@ namespace GreenPoints.Data
             builder.Property(x => x.Id).HasColumnName("inter_id");
             builder.Property(x => x.SocioId).HasColumnName("socio_id");
             builder.Property(x => x.PuntoId).HasColumnName("punto_id");
+            builder.Property(x => x.Puntos).HasColumnName("puntos");
         }
     }
 }
