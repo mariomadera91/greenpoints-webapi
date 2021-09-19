@@ -21,5 +21,15 @@ namespace GreenPoints.Services
                 Points = x.PuntosKg
             }).ToList();
         }
+
+        public List<TipoReciclableDto> GetByPunto(int puntoId)
+        {
+            return _tipoReciclableRepository.GetByPunto(puntoId).Select(x => new TipoReciclableDto()
+            {
+                Id = x.Id,
+                Nombre = x.Nombre,
+                Points = x.PuntosKg
+            }).ToList();
+        }
     }
 }

@@ -22,5 +22,13 @@ namespace GreenPoints.WebApi.Controllers
 
             return Ok(tipoReciclables);
         }
+
+        [HttpGet("{puntoId}")]
+        public ActionResult GetByPunto(int puntoId)
+        {
+            var tipoReciclables = _tipoReciclableService.GetByPunto(puntoId);
+
+            return Ok(tipoReciclables);
+        }
     }
 }
