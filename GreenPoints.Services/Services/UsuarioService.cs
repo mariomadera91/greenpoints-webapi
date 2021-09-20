@@ -1,4 +1,5 @@
-﻿using GreenPoints.Domain;
+﻿using GreenPoints.Data;
+using GreenPoints.Domain;
 using GreenPoints.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -14,11 +15,14 @@ namespace GreenPoints.Services.Services
     {
         private IUsuarioRepository _usuarioRepository { get; set; }
         private IConfiguration _configuration { get; set; }
-
-        public UsuarioService(IUsuarioRepository usuarioRepository, IConfiguration configuration)
+        private ISocioRecicladorRepository _socioRecicladorRepository { get; set; }
+        private IPuntoReciclajeRepository _puntoReciclajeRepository { get; set; }
+        public UsuarioService(IUsuarioRepository usuarioRepository, IConfiguration configuration, ISocioRecicladorRepository socioReciclador, IPuntoReciclajeRepository puntoReciclajeRepository)
         {
             _usuarioRepository = usuarioRepository;
             _configuration = configuration;
+            _socioRecicladorRepository = socioReciclador;
+            _puntoReciclajeRepository = puntoReciclajeRepository;
         }
 
         public UsuarioDto Get(string userName, string password)
@@ -50,9 +54,23 @@ namespace GreenPoints.Services.Services
 
             var jwt_token = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return new UsuarioDto()
+             int? id = null;
+
+            if (user.Rol == UserRol.SocioReciclador) 
+            {
+                var socioReciclador = _socioRecicladorRepository.GetSocioReciclador(user.Id);
+                id = socioReciclador.Id;
+            }
+            else if (user.Rol == UserRol.PuntoReciclaje)
+            {
+                var puntoReciclaje = _puntoReciclajeRepository.GetPuntoReciclaje(user.Id);
+                id = puntoReciclaje.Id;
+            }
+
+                return new UsuarioDto()
             {
                 User = user.UserName,
+                Id = id,
                 Imagen = null,
                 Rol = user.Rol,
                 Token = jwt_token

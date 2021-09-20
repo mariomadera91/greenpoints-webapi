@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace GreenPoints.Data
 {
-    public interface ISocioRecicladorRepository
+    public interface IPuntoReciclajeRepository
     {
-        SocioReciclador GetSocioReciclador(int id);
-        void Add(SocioReciclador socio);
+        PuntoReciclaje GetPuntoReciclaje(int id);
+        void Add(PuntoReciclaje punto);
     }
 }

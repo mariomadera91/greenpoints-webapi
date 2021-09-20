@@ -12,11 +12,14 @@ namespace GreenPoints.WebApi.Controllers
     {
         private readonly IUsuarioService _usuarioService;
         private readonly ISocioRecicladorService _socioRecicladorService;
+        private readonly IPuntoReciclajeService _puntoReciclajeService;
         public UsuarioController(IUsuarioService usuarioService, 
-                                 ISocioRecicladorService socioRecicladorService)
+                                 ISocioRecicladorService socioRecicladorService,
+                                 IPuntoReciclajeService puntoReciclajeService)
         {
             _usuarioService = usuarioService;
             _socioRecicladorService = socioRecicladorService;
+            _puntoReciclajeService = puntoReciclajeService;
 
         }
 
@@ -47,6 +50,23 @@ namespace GreenPoints.WebApi.Controllers
                 FirstName = socioModel.FirstName,
                 LastName = socioModel.LastName,
                 Password = socioModel.Password
+            });
+
+            return Ok();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("punto-reciclaje")]
+        public ActionResult PostPuntoReciclaje([FromBody] PuntoReciclajeModel puntoModel)
+        {
+            _puntoReciclajeService.Create(new CreatePuntoReciclajeDto()
+            {
+                UserName = puntoModel.Username,
+                CustomerName = puntoModel.CustomerName,
+                Document = puntoModel.Document,
+                Direccion = puntoModel.Direccion,
+                Password = puntoModel.Password
             });
 
             return Ok();

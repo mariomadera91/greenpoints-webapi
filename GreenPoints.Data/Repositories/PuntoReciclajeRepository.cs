@@ -7,21 +7,21 @@ using System.Threading.Tasks;
 
 namespace GreenPoints.Data
 {
-    public class SocioRecicladorRepository : ISocioRecicladorRepository
+    public class PuntoReciclajeRepository : IPuntoReciclajeRepository
     {
-        public void Add(SocioReciclador socio)
+        public void Add(PuntoReciclaje punto)
         {
             using (var _context = new GreenPointsContext())
             {
-                _context.Add(socio);
+                _context.Add(punto);
                 _context.SaveChanges();
             }
         }
-        public SocioReciclador GetSocioReciclador(int id)
+        public PuntoReciclaje GetPuntoReciclaje(int id)
         {
             using (var _context = new GreenPointsContext())
             {
-                return _context.SociosRecicladores.Where(x => x.UsuarioId == id).FirstOrDefault();
+                return _context.PuntosReciclaje.Where(x => x.UsuarioId == id).FirstOrDefault();
             }
         }
     }

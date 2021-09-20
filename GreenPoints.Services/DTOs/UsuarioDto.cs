@@ -7,6 +7,7 @@ namespace GreenPoints.Services
         public string User { get; set; }
         public string Imagen { get; set; }
         public UserRol Rol { get; set; }
+        public int? Id { get; set; }
         public string Token { get; set; }
     }
 }
