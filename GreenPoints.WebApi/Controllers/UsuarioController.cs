@@ -71,5 +71,15 @@ namespace GreenPoints.WebApi.Controllers
 
             return Ok();
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("socio-reciclador")]
+        public ActionResult GetSocioReciclador()
+        {
+            var sociosRecicladores = _socioRecicladorService.Get();
+
+            return Ok(sociosRecicladores);
+        }
     }
 }

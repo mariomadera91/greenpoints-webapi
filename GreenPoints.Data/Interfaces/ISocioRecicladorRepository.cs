@@ -11,5 +11,7 @@ namespace GreenPoints.Data
     {
         SocioReciclador GetSocioReciclador(int id);
         void Add(SocioReciclador socio);
+
+        List<SocioReciclador> Get();
     }
 }

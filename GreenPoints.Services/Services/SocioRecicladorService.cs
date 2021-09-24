@@ -41,5 +41,15 @@ namespace GreenPoints.Services
 
             _socioRecicladorRepository.Add(socioReciclador);
         }
+
+        public List<SocioRecicladorDto> Get()
+        {
+            var sociosRecicladores = _socioRecicladorRepository.Get();
+            return sociosRecicladores.Select(x=> new SocioRecicladorDto()
+            {
+                SocioId = x.Id,
+                Email = x.Usuario.UserName
+            }).ToList();
+        }
     }
 }

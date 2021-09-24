@@ -1,4 +1,5 @@
 ﻿using GreenPoints.Services;
+using GreenPoints.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,6 +40,17 @@ namespace GreenPoints.WebApi.Controllers
             var intercambio = _intercambioService.GetById(id);
 
             return Ok(intercambio);
+        }
+
+        [HttpPost]
+        public ActionResult Post([FromBody] IntercambioModel intercambiModel)
+        {
+            if (intercambiModel == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
     }
 }

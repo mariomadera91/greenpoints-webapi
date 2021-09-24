@@ -1,4 +1,5 @@
 ﻿using GreenPoints.Domain;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,15 @@ namespace GreenPoints.Data
                 _context.SaveChanges();
             }
         }
+
+        public List<SocioReciclador> Get()
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                return _context.SociosRecicladores.Include(x=> x.Usuario).Where(x=> x.Usuario.Activo).ToList();
+            }
+        }
+
         public SocioReciclador GetSocioReciclador(int id)
         {
             using (var _context = new GreenPointsContext())
