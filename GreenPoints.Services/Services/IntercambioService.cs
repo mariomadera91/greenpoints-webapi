@@ -43,6 +43,7 @@ namespace GreenPoints.Services
 
             var intercambioDetialDto = new IntercambioDto()
             {
+                Id = intercambio.Id,
                 Date = intercambio.Fecha,
                 Points = intercambio.Puntos,
                 PuntoReciclajeName = intercambio.Punto.Nombre,

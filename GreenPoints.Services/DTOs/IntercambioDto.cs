@@ -5,6 +5,7 @@ namespace GreenPoints.Services
 {
     public class IntercambioDto
     {
+        public int Id { get; set; }
         public string PuntoReciclajeName { get; set; }
         public int Points { get; set; }
         public DateTime Date { get; set; }
