@@ -13,6 +13,7 @@ namespace GreenPoints.Data
             {
                 return _context.Intercambios
                     .Include(x => x.IntercambioTipoReciclables).ThenInclude(y => y.Tipo)
+                    .Include(x => x.IntercambioTipoReciclables).ThenInclude(y => y.Lote).ThenInclude(z => z.Planta)
                     .Include(x => x.Punto)
                     .Where(x => x.Id == id).FirstOrDefault();
             }

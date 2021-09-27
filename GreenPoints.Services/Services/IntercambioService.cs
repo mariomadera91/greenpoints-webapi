@@ -47,6 +47,7 @@ namespace GreenPoints.Services
                 Date = intercambio.Fecha,
                 Points = intercambio.Puntos,
                 PuntoReciclajeName = intercambio.Punto.Nombre,
+                PuntoReciclajeAddress = intercambio.Punto.Direccion,
                 Detail = new List<IntercambioDetailDto>()
             };
 
@@ -55,7 +56,11 @@ namespace GreenPoints.Services
                 intercambioDetialDto.Detail.Add(new IntercambioDetailDto()
                 {
                     Weight = intercambioTipoReciclable.Peso,
-                    TipoReciclableName = intercambioTipoReciclable.Tipo.Nombre
+                    TipoReciclableName = intercambioTipoReciclable.Tipo.Nombre,
+                    PlantaName = (intercambioTipoReciclable.Lote.Planta != null) ? 
+                                    intercambioTipoReciclable.Lote.Planta.Nombre : intercambio.Punto.Nombre,
+                    PlantaAddress = (intercambioTipoReciclable.Lote.Planta != null) ? 
+                                    intercambioTipoReciclable.Lote.Planta.Direccion : intercambio.Punto.Direccion
                 });
             });
 
