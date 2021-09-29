@@ -65,8 +65,11 @@ namespace GreenPoints.WebApi.Controllers
                 UserName = puntoModel.Username,
                 CustomerName = puntoModel.CustomerName,
                 Document = puntoModel.Document,
+                Latitud = puntoModel.Latitud,
+                Longitud = puntoModel.Longitud,
                 Direccion = puntoModel.Direccion,
-                Password = puntoModel.Password
+                Password = puntoModel.Password,
+                Materials = puntoModel.Materials
             });
 
             return Ok();

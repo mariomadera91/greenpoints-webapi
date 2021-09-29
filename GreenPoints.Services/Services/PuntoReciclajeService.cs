@@ -1,6 +1,7 @@
 ﻿using GreenPoints.Data;
 using GreenPoints.Domain;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -21,22 +22,30 @@ namespace GreenPoints.Services
         }
         public void Create(CreatePuntoReciclajeDto puntoDto)
         {
-            var usuario = new Usuario()
-            {
-                UserName = puntoDto.UserName,
-                Password = puntoDto.Password,
-                Rol = UserRol.PuntoReciclaje,
-                Activo = true
-            };
-
-            var usuarioDb = _usuarioRepository.AddUsuario(usuario);
             var puntoReciclaje = new PuntoReciclaje()
             {
                 Nombre = puntoDto.CustomerName,
                 CUIT = puntoDto.Document,
                 Direccion = puntoDto.Direccion,
-                UsuarioId = usuarioDb.Id
+                Latitud = puntoDto.Latitud,
+                Longitud = puntoDto.Longitud,
+                PuntoReciclajeTipoReciclables = new List<PuntoReciclajeTipoReciclable>(),
+                Usuario = new Usuario()
+                {
+                    UserName = puntoDto.UserName,
+                    Password = puntoDto.Password,
+                    Rol = UserRol.PuntoReciclaje,
+                    Activo = true
+                }
             };
+
+            puntoDto.Materials.ForEach(material =>
+            {
+                puntoReciclaje.PuntoReciclajeTipoReciclables.Add(new PuntoReciclajeTipoReciclable()
+                {
+                    TipoId = material
+                });
+            });
 
             _puntoReciclajeRepository.Add(puntoReciclaje);
         }
