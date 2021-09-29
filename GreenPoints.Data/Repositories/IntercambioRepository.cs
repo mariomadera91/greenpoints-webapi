@@ -9,7 +9,11 @@ namespace GreenPoints.Data
     {
         public void Create(Intercambio intercambio)
         {
-            throw new System.NotImplementedException();
+            using (var _context = new GreenPointsContext())
+            {
+                 _context.Intercambios.Add(intercambio);
+                 _context.SaveChanges();
+            }
         }
 
         public Intercambio GetById(int id)

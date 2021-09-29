@@ -18,7 +18,7 @@ namespace GreenPoints.Services
     public class CreateIntercambioTipoMateriales
     {
         public int TipoId { get; set; }
-        public decimal Peso { get; set; }
+        public float Peso { get; set; }
         public int Puntos { get; set; }
     }
 }

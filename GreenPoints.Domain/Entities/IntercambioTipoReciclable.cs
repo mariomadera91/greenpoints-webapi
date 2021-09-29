@@ -1,4 +1,7 @@
-﻿namespace GreenPoints.Domain
+﻿using System;
+using System.Collections.Generic;
+
+namespace GreenPoints.Domain
 {
     public class IntercambioTipoReciclable: IdentifierEntity
     {
@@ -10,5 +13,10 @@
         public TipoReciclable Tipo { get; set; }
         public Intercambio Intercambio { get; set; }
         public Lote Lote { get; set; }
+
+        public static implicit operator List<object>(IntercambioTipoReciclable v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

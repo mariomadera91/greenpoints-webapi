@@ -1,5 +1,8 @@
 ﻿using GreenPoints.Data;
+using GreenPoints.Domain;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GreenPoints.Services
 {
@@ -61,9 +64,31 @@ namespace GreenPoints.Services
             return intercambioDetialDto;
         }
 
-        public void Post(CreateIntercambioDto intercambioDto)
+        public void Post(CreateIntercambioDto createIntercambioDto)
         {
-            throw new System.NotImplementedException();
+
+            var intercambio = new Intercambio()
+            {
+                PuntoId = createIntercambioDto.PuntoId,
+                SocioId = createIntercambioDto.SocioId,
+                Fecha = DateTime.Today,
+                Puntos = createIntercambioDto.TipoReciclaje.Sum(x=>x.Puntos),
+                IntercambioTipoReciclables = new List<IntercambioTipoReciclable>()
+
+            };
+
+            foreach (var tipoReciclaje in createIntercambioDto.TipoReciclaje)
+            {
+                intercambio.IntercambioTipoReciclables.Add(new IntercambioTipoReciclable()
+                {
+                    TipoId = tipoReciclaje.TipoId,
+                    Peso = tipoReciclaje.Peso,
+                    Puntos = tipoReciclaje.Puntos,
+                    LoteId = 1
+                });
+            }
+            _intercambioRepository.Create(intercambio);
         }
+
     }
 }
