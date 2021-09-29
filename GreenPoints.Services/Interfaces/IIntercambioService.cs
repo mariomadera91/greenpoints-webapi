@@ -7,5 +7,7 @@ namespace GreenPoints.Services
     {
         List<IntercambioListDto> GetBySocio(int socioId);
         IntercambioDto GetById(int id);
+
+        void Post(CreateIntercambioDto intercambioDto);
     }
 }

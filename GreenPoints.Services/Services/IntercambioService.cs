@@ -60,5 +60,10 @@ namespace GreenPoints.Services
 
             return intercambioDetialDto;
         }
+
+        public void Post(CreateIntercambioDto intercambioDto)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -7,12 +7,18 @@ namespace GreenPoints.Data
 {
     public class IntercambioRepository : IIntercambioRepository
     {
+        public void Create(Intercambio intercambio)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Intercambio GetById(int id)
         {
             using (var _context = new GreenPointsContext())
             {
                 return _context.Intercambios
                     .Include(x => x.IntercambioTipoReciclables).ThenInclude(y => y.Tipo)
+                    .Include(x => x.IntercambioTipoReciclables).ThenInclude(y => y.Lote).ThenInclude(z=> z.Planta)
                     .Include(x => x.Punto)
                     .Where(x => x.Id == id).FirstOrDefault();
             }

@@ -43,12 +43,14 @@ namespace GreenPoints.WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody] IntercambioModel intercambiModel)
+        public ActionResult Post([FromBody] CreateIntercambioDto intercambioModel)
         {
-            if (intercambiModel == null)
+            if (intercambioModel == null)
             {
                 return BadRequest();
             }
+
+            _intercambioService.Post(intercambioModel);
 
             return Ok();
         }
