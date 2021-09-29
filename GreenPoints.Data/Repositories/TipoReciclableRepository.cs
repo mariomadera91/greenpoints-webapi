@@ -22,7 +22,7 @@ namespace GreenPoints.Data
                 return _context.PuntosReciclajeTiposReciclables
                         .Include(x => x.Punto)
                         .Include(x => x.Tipo)
-                    .Where(x => x.Punto.Id == puntoId ).Select(x => x.Tipo).ToList();
+                        .Where(x => x.Punto.Id == puntoId ).Select(x => x.Tipo).ToList();
             }
         }
     }

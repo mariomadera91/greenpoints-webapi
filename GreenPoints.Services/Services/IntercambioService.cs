@@ -9,11 +9,14 @@ namespace GreenPoints.Services
     public class IntercambioService : IIntercambioService
     {
         private IIntercambioRepository _intercambioRepository;
+        private ILoteRepository _loteRepository;
 
         public IntercambioService(
-            IIntercambioRepository intercambioRepository)
+            IIntercambioRepository intercambioRepository,
+            ILoteRepository loteRepository)
         {
             _intercambioRepository = intercambioRepository;
+            _loteRepository = loteRepository;
         }
 
         public List<IntercambioListDto> GetBySocio(int socioId)
@@ -90,7 +93,7 @@ namespace GreenPoints.Services
                     TipoId = tipoReciclaje.TipoId,
                     Peso = tipoReciclaje.Peso,
                     Puntos = tipoReciclaje.Puntos,
-                    LoteId = 1
+                    LoteId = _loteRepository.GetActiveByTipoRecicable(createIntercambioDto.PuntoId,  tipoReciclaje.TipoId).Id
                 });
             }
             _intercambioRepository.Create(intercambio);

@@ -6,11 +6,14 @@ namespace GreenPoints.Services
 {
     public class TipoReciclableService : ITipoReciclableService
     {
-        private readonly ITipoReciclableRepository _tipoReciclableRepository;
+        private ITipoReciclableRepository _tipoReciclableRepository;
+        private ILoteRepository _loteRepository;
 
-        public TipoReciclableService(ITipoReciclableRepository tipoReciclableRepository)
+        public TipoReciclableService(ITipoReciclableRepository tipoReciclableRepository,
+            ILoteRepository loteRepository)
         {
             _tipoReciclableRepository = tipoReciclableRepository;
+            _loteRepository = loteRepository;
         }
         public List<TipoReciclableDto> Get()
         {
@@ -24,7 +27,10 @@ namespace GreenPoints.Services
 
         public List<TipoReciclableDto> GetByPunto(int puntoId)
         {
-            return _tipoReciclableRepository.GetByPunto(puntoId).Select(x => new TipoReciclableDto()
+            var lotes = _loteRepository.GetActiveByPunto(puntoId);
+            return _tipoReciclableRepository.GetByPunto(puntoId)
+                .Where(x=> lotes.Any(y => y.TipoId == x.Id ))
+                .Select(x => new TipoReciclableDto()
             {
                 Id = x.Id,
                 Nombre = x.Nombre,
