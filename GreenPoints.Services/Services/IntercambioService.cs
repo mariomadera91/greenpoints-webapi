@@ -47,9 +47,12 @@ namespace GreenPoints.Services
         {
             var intercambio = _intercambioRepository.GetById(id);
 
+            var intercambioNumber = _intercambioRepository.GetBySocio(intercambio.SocioId).Where(x => x.Id < intercambio.Id).Count() + 1;
+
             var intercambioDetialDto = new IntercambioDto()
             {
                 Id = intercambio.Id,
+                Name = $"Mi intercambio #{ intercambioNumber }",
                 Date = intercambio.Fecha,
                 Points = intercambio.Puntos,
                 PuntoReciclajeName = intercambio.Punto.Nombre,
