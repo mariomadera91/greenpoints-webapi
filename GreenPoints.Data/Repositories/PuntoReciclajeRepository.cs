@@ -1,9 +1,7 @@
 ﻿using GreenPoints.Domain;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GreenPoints.Data
 {
@@ -17,11 +15,23 @@ namespace GreenPoints.Data
                 _context.SaveChanges();
             }
         }
+
         public PuntoReciclaje GetPuntoReciclaje(int id)
         {
             using (var _context = new GreenPointsContext())
             {
                 return _context.PuntosReciclaje.Where(x => x.UsuarioId == id).FirstOrDefault();
+            }
+        }
+
+        public List<PuntoReciclaje> Get()
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                return _context.PuntosReciclaje
+                    .Include(x => x.Usuario)
+                    .Include(x => x.PuntoReciclajeTipoReciclables).ThenInclude(y => y.Tipo)
+                    .Where(x => x.Usuario.Activo).ToList();
             }
         }
     }
