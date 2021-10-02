@@ -69,7 +69,8 @@ namespace GreenPoints.Services
                     PlantaName = (intercambioTipoReciclable.Lote.Planta != null) ? 
                                     intercambioTipoReciclable.Lote.Planta.Nombre : intercambio.Punto.Nombre,
                     PlantaAddress = (intercambioTipoReciclable.Lote.Planta != null) ? 
-                                    intercambioTipoReciclable.Lote.Planta.Direccion : intercambio.Punto.Direccion
+                                    intercambioTipoReciclable.Lote.Planta.Direccion : intercambio.Punto.Direccion,
+                    ClosedLote = !intercambioTipoReciclable.Lote.Abierto
                 });
             });
 

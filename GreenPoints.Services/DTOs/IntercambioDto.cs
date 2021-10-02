@@ -20,5 +20,6 @@ namespace GreenPoints.Services
         public string TipoReciclableName { get; set; }
         public string PlantaName { get; set; }
         public string PlantaAddress { get; set; }
+        public bool ClosedLote { get; set; }
     }
 }
