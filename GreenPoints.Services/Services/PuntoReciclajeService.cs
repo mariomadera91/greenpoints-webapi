@@ -45,9 +45,11 @@ namespace GreenPoints.Services
             _puntoReciclajeRepository.Add(puntoReciclaje);
         }
 
-        public List<PuntoReciclajeListDto> Get()
+        public List<PuntoReciclajeListDto> Get(int? tipoId)
         {
-            return _puntoReciclajeRepository.Get().Select(x => new PuntoReciclajeListDto()
+            return _puntoReciclajeRepository.Get()
+                .Where(x => !tipoId.HasValue || x.PuntoReciclajeTipoReciclables.Any(y => y.TipoId == tipoId))
+                .Select(x => new PuntoReciclajeListDto()
             {
                 Id = x.Id,
                 Latitud = x.Latitud,

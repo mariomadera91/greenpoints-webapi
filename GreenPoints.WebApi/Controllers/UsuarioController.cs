@@ -80,7 +80,7 @@ namespace GreenPoints.WebApi.Controllers
         [Route("punto-reciclaje")]
         public ActionResult GetPuntoReciclaje([FromQuery] int? tipoId)
         {
-            var puntos = _puntoReciclajeService.Get();
+            var puntos = _puntoReciclajeService.Get(tipoId);
             return Ok(puntos);
         }
 
