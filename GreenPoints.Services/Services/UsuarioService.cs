@@ -31,10 +31,8 @@ namespace GreenPoints.Services.Services
 
             if(user == null)
             {
-                throw new Exception("Datos incorrectos");
+                return null;
             }
-
-            var tokenHandler = new JwtSecurityTokenHandler();
 
             var key = _configuration.GetSection("jwt_key").Value;
             var issuer = "http://mysite.com";

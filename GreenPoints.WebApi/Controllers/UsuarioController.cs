@@ -35,6 +35,11 @@ namespace GreenPoints.WebApi.Controllers
             
             var usuario = _usuarioService.Get(loginModel.User, loginModel.Password);
 
+            if(usuario == null)
+            {
+                return Unauthorized();
+            }
+
             return Ok(usuario);
         }
 
