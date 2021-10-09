@@ -1,12 +1,7 @@
 ﻿using GreenPoints.Data;
 using GreenPoints.Domain;
-using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GreenPoints.Services
 {
@@ -48,6 +43,43 @@ namespace GreenPoints.Services
             });
 
             _puntoReciclajeRepository.Add(puntoReciclaje);
+        }
+
+        public List<PuntoReciclajeListDto> Get(int? tipoId)
+        {
+            return _puntoReciclajeRepository.Get()
+                .Where(x => !tipoId.HasValue || x.PuntoReciclajeTipoReciclables.Any(y => y.TipoId == tipoId))
+                .Select(x => new PuntoReciclajeListDto()
+            {
+                Id = x.Id,
+                Latitud = x.Latitud,
+                Longitud = x.Longitud,
+                Nombre = x.Nombre,
+                Description = GetDescription(x.PuntoReciclajeTipoReciclables.Select(y => y.Tipo).ToList())
+            }).ToList();
+        }
+
+        private string GetDescription(List<TipoReciclable> tipos)
+        {
+            var description = "Puedes intercambiar: ";
+
+            if(tipos.Count == 1)
+            {
+                description += $"{ tipos[0].Nombre }.";
+            }
+            else if (tipos.Count > 1)
+            {
+                description += $"{ tipos[0].Nombre }";
+
+                for (int i = 1; i < tipos.Count - 1; i++)
+                {
+                    description += $", { tipos[0].Nombre }";
+                }
+
+                description += $" y { tipos[tipos.Count - 1].Nombre }.";
+            }
+
+            return description;
         }
     }
 }
