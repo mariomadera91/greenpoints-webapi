@@ -1,11 +1,11 @@
 ﻿using GreenPoints.Domain;
 using System.Collections.Generic;
 
-namespace GreenPoints.Services.Interfaces
+namespace GreenPoints.Services
 {
     public interface IPremioService
     {
-        List<Premio> Get();
+        List<PremioListDto> Get();
 
         Premio GetById(int id);
     }

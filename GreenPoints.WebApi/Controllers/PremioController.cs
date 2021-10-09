@@ -1,9 +1,8 @@
-﻿using GreenPoints.Domain;
+﻿using GreenPoints.Services;
 using GreenPoints.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace GreenPoints.WebApi.Controllers
 {
@@ -20,7 +19,7 @@ namespace GreenPoints.WebApi.Controllers
 
         [Authorize]
         [HttpGet]
-        public ActionResult<List<Premio>> Get()
+        public ActionResult<List<PremioListDto>> Get()
         {
             var premios = _premioService.Get();
 

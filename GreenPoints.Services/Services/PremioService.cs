@@ -1,5 +1,5 @@
 ﻿using GreenPoints.Domain;
-using GreenPoints.Services.Interfaces;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace GreenPoints.Services.Services
@@ -13,9 +13,17 @@ namespace GreenPoints.Services.Services
             _premioRepository = premioRepository;
         }
 
-        public List<Premio> Get()
+        public List<PremioListDto> Get()
         {
-            return _premioRepository.Get();
+            var premios = _premioRepository.Get();
+
+            return premios.Select(x => new PremioListDto()
+            {
+                Id = x.Id,
+                Description = x.Descripcion,
+                Points = x.Puntos.ToString(),
+                SponsorName = x.Sponsor.Nombre
+            }).ToList();
         }
 
         public Premio GetById(int id)
