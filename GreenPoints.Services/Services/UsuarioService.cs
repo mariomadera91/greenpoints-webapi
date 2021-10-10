@@ -56,7 +56,7 @@ namespace GreenPoints.Services.Services
 
             if (user.Rol == UserRol.SocioReciclador) 
             {
-                var socioReciclador = _socioRecicladorRepository.GetSocioReciclador(user.Id);
+                var socioReciclador = _socioRecicladorRepository.GetByUsuarioId(user.Id);
                 id = socioReciclador.Id;
             }
             else if (user.Rol == UserRol.PuntoReciclaje)

@@ -27,11 +27,19 @@ namespace GreenPoints.Data
             }
         }
 
-        public SocioReciclador GetSocioReciclador(int id)
+        public SocioReciclador GetById(int id)
         {
             using (var _context = new GreenPointsContext())
             {
-                return _context.SociosRecicladores.Where(x => x.UsuarioId == id).FirstOrDefault();
+                return _context.SociosRecicladores.Where(x => x.Id == id).FirstOrDefault();
+            }
+        }
+
+        public SocioReciclador GetByUsuarioId(int usuarioId)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                return _context.SociosRecicladores.Where(x => x.UsuarioId == usuarioId).FirstOrDefault();
             }
         }
     }

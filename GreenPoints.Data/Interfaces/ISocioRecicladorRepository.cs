@@ -9,9 +9,9 @@ namespace GreenPoints.Data
 {
     public interface ISocioRecicladorRepository
     {
-        SocioReciclador GetSocioReciclador(int id);
+        SocioReciclador GetByUsuarioId(int usuarioId);
         void Add(SocioReciclador socio);
-
         List<SocioReciclador> Get();
+        SocioReciclador GetById(int id);
     }
 }

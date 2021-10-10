@@ -2,10 +2,7 @@
 using GreenPoints.Domain;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GreenPoints.Services
 {
@@ -48,6 +45,13 @@ namespace GreenPoints.Services
                 SocioId = x.Id,
                 Email = x.Usuario.UserName
             }).ToList();
+        }
+
+        public int GetPuntos(int socioId)
+        {
+            var socioReciclador = _socioRecicladorRepository.GetById(socioId);
+
+            return socioReciclador.Puntos;
         }
     }
 }
