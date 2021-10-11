@@ -1,5 +1,4 @@
-﻿using GreenPoints.Domain;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace GreenPoints.Services
 {
@@ -7,6 +6,10 @@ namespace GreenPoints.Services
     {
         List<PremioListDto> Get();
 
-        Premio GetById(int id);
+        PremioDto GetDetailById(int id);
+
+        ImageDto GetImage(string name);
+
+        string Exchange(int premioId, int socioId);
     }
 }

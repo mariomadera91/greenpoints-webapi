@@ -42,5 +42,14 @@ namespace GreenPoints.Data
                 return _context.SociosRecicladores.Where(x => x.UsuarioId == usuarioId).FirstOrDefault();
             }
         }
+
+        public void Update(SocioReciclador socio)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                _context.SociosRecicladores.Update(socio);
+                _context.SaveChanges();
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using GreenPoints.Services;
 using GreenPoints.Services.Interfaces;
+using GreenPoints.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -17,7 +18,6 @@ namespace GreenPoints.WebApi.Controllers
             _premioService = premioService;
         }
 
-        [Authorize]
         [HttpGet]
         public ActionResult<List<PremioListDto>> Get()
         {
@@ -26,11 +26,10 @@ namespace GreenPoints.WebApi.Controllers
             return Ok(premios);
         }
 
-        [Authorize]
         [HttpGet("{id}")]
         public ActionResult GetById(int id)
         {
-            var premio = _premioService.GetById(id);
+            var premio = _premioService.GetDetailById(id);
 
             if(premio == null)
             {
@@ -40,6 +39,22 @@ namespace GreenPoints.WebApi.Controllers
             {
                 return Ok(premio);
             }
+        }
+
+        [HttpGet]
+        [Route("image")]
+        public IActionResult GetProductImage(string name)
+        {
+            var imageDto = _premioService.GetImage(name);
+            return File(imageDto.Image, imageDto.ContentType);
+        }
+
+        [HttpPost]
+        [Route("exchange")]
+        public IActionResult Exchange([FromBody] ExchangeModel exchangeModel)
+        {
+            var codigo = _premioService.Exchange(exchangeModel.PremioId, exchangeModel.SocioId);
+            return Ok(codigo);
         }
     }
 }

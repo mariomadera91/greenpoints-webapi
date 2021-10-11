@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace GreenPoints.Data
 {
@@ -11,7 +12,11 @@ namespace GreenPoints.Data
         {
             using (var _context = new GreenPointsContext())
             {
-                return _context.Premios.Include(x => x.Sponsor).ToList();
+                return _context.Premios.Include(x => x.Sponsor)
+                    .Where(x => x.Activo && x.Stock > 0
+                                && (x.VigenciaDesde <= DateTime.Now)
+                                && (!x.VigenciaHasta.HasValue || x.VigenciaHasta >= DateTime.Now))
+                    .ToList();
             }
         }
 
@@ -22,5 +27,42 @@ namespace GreenPoints.Data
                 return _context.Premios.Where(x => x.Id == id).FirstOrDefault();
             }
         }
+
+        public void Update(Premio premio)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                _context.Premios.Update(premio);
+                _context.SaveChanges();
+            }
+        }
+
+        public PremioCodigo GetPremioCodigo(int premioId)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                return _context.PremiosCodigos.Where(x => x.PremioId == premioId && x.Activo).First();
+            }
+        }
+
+        public void UpdatePremioCodigo(PremioCodigo premioCodigo)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                _context.PremiosCodigos.Update(premioCodigo);
+                _context.SaveChanges();
+            }
+        }
+
+
+        public void CreateSocioPremio(SocioPremio socioPremio)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                _context.SociosPremios.Add(socioPremio);
+                _context.SaveChanges();
+            }
+        }
+
     }
 }

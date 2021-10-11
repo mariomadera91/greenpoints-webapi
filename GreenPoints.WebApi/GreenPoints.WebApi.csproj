@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Imagenes\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\GreenPoints.Services\GreenPoints.Services.csproj" />
   </ItemGroup>
 
@@ -26,6 +22,12 @@
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Content\SinImagen.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
