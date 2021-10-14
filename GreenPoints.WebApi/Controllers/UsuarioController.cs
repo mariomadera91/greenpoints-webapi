@@ -91,7 +91,26 @@ namespace GreenPoints.WebApi.Controllers
             return Ok(sociosRecicladores);
         }
 
-        public static string GetSHA256(string str)
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("punto-reciclaje")]
+        public ActionResult GetPuntoReciclaje([FromQuery] int? tipoId)
+        {
+            var puntos = _puntoReciclajeService.Get(tipoId);
+            return Ok(puntos);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("socio-reciclador/puntos")]
+        public ActionResult GetSocioRecicladorPuntos([FromQuery] int socioId)
+        {
+            var puntos = _socioRecicladorService.GetPuntos(socioId);
+
+            return Ok(puntos);
+        }
+
+        private static string GetSHA256(string str)
         {
             SHA256 sha256 = SHA256Managed.Create();
             ASCIIEncoding encoding = new ASCIIEncoding();
