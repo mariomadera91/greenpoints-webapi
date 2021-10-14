@@ -3,7 +3,8 @@ using GreenPoints.Services.Interfaces;
 using GreenPoints.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Security.Cryptography;
+using System.Text;
 namespace GreenPoints.WebApi.Controllers
 {
     [Route("usuario")]
@@ -13,7 +14,7 @@ namespace GreenPoints.WebApi.Controllers
         private readonly IUsuarioService _usuarioService;
         private readonly ISocioRecicladorService _socioRecicladorService;
         private readonly IPuntoReciclajeService _puntoReciclajeService;
-        public UsuarioController(IUsuarioService usuarioService, 
+        public UsuarioController(IUsuarioService usuarioService,
                                  ISocioRecicladorService socioRecicladorService,
                                  IPuntoReciclajeService puntoReciclajeService)
         {
@@ -32,10 +33,10 @@ namespace GreenPoints.WebApi.Controllers
             {
                 return BadRequest();
             }
-            
-            var usuario = _usuarioService.Get(loginModel.User, loginModel.Password);
 
-            if(usuario == null)
+            var usuario = _usuarioService.Get(loginModel.User, GetSHA256(loginModel.Password));
+
+            if (usuario == null)
             {
                 return Unauthorized();
             }
@@ -54,7 +55,7 @@ namespace GreenPoints.WebApi.Controllers
                 Email = socioModel.Email,
                 FirstName = socioModel.FirstName,
                 LastName = socioModel.LastName,
-                Password = socioModel.Password
+                Password = GetSHA256(socioModel.Password)
             });
 
             return Ok();
@@ -73,20 +74,11 @@ namespace GreenPoints.WebApi.Controllers
                 Latitud = puntoModel.Latitud,
                 Longitud = puntoModel.Longitud,
                 Direccion = puntoModel.Direccion,
-                Password = puntoModel.Password,
+                Password = GetSHA256(puntoModel.Password),
                 Materials = puntoModel.Materials
             });
 
             return Ok();
-        }
-
-        [AllowAnonymous]
-        [HttpGet]
-        [Route("punto-reciclaje")]
-        public ActionResult GetPuntoReciclaje([FromQuery] int? tipoId)
-        {
-            var puntos = _puntoReciclajeService.Get(tipoId);
-            return Ok(puntos);
         }
 
         [AllowAnonymous]
@@ -99,14 +91,16 @@ namespace GreenPoints.WebApi.Controllers
             return Ok(sociosRecicladores);
         }
 
-        [AllowAnonymous]
-        [HttpGet]
-        [Route("socio-reciclador/puntos")]
-        public ActionResult GetSocioRecicladorPuntos([FromQuery] int socioId)
+        public static string GetSHA256(string str)
         {
-            var puntos = _socioRecicladorService.GetPuntos(socioId);
+            SHA256 sha256 = SHA256Managed.Create();
+            ASCIIEncoding encoding = new ASCIIEncoding();
+            byte[] stream = null;
+            StringBuilder sb = new StringBuilder();
+            stream = sha256.ComputeHash(encoding.GetBytes(str));
+            for (int i = 0; i < stream.Length; i++) sb.AppendFormat("{0:x2}", stream[i]);
+            return sb.ToString();
 
-            return Ok(puntos);
         }
     }
 }
