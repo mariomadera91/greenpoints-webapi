@@ -12,6 +12,7 @@ namespace GreenPoints.Domain
         public int Stock { get; set; }
         public DateTime? Fecha { get; set; }
         public int SponsorId { get; set; }
+        public string Observacion { get; set; }
         public Sponsor Sponsor { get; set; }
     }
 }

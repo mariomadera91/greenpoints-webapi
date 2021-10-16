@@ -13,7 +13,8 @@ namespace GreenPoints.Data
             builder.Property(x => x.Id).HasColumnName("lote_id");
             builder.Property(x => x.PuntoId).HasColumnName("punto_id");
             builder.Property(x => x.TipoId).HasColumnName("tipo_id");
-            builder.Property(x => x.FechaCrea).HasColumnName("fecha_crea");
+            builder.Property(x => x.FechaCreacion).HasColumnName("fecha_creacion");
+            builder.Property(x => x.FechaCierre).HasColumnName("fecha_cierre").IsRequired(false);
             builder.Property(x => x.PlantaId).HasColumnName("planta_id");
         }
     }

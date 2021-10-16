@@ -1,7 +1,5 @@
 ﻿using GreenPoints.Services;
-using GreenPoints.Services.Interfaces;
 using GreenPoints.WebApi.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 

@@ -14,6 +14,7 @@ namespace GreenPoints.Data
             builder.Property(x => x.VigenciaDesde).HasColumnName("vigencia_desde");
             builder.Property(x => x.VigenciaHasta).HasColumnName("vigencia_hasta");
             builder.Property(x => x.SponsorId).HasColumnName("sponsor_id");
+            builder.Property(x => x.Observacion).HasColumnName("observacion");
         }
     }
 }

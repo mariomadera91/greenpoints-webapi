@@ -16,8 +16,10 @@ namespace GreenPoints.Services
         public ImageDto GetImage(string name, string entityName)
         {
             var basePath = _configuration.GetSection("imagePath").Value;
+            var imagePath = $"{ basePath }\\{ entityName }\\{ name }";
+            var contentType = name.Contains(".") ? $"image/{ name.Split(".")[1] }" : "image/jpg";
 
-            if (!Directory.Exists(basePath) || string.IsNullOrEmpty(name))
+            if (!Directory.Exists(basePath) || string.IsNullOrEmpty(name) || !File.Exists(imagePath))
             {
                 return new ImageDto()
                 {
@@ -25,9 +27,6 @@ namespace GreenPoints.Services
                     Image = File.OpenRead($"{ AppDomain.CurrentDomain.BaseDirectory }\\Content\\SinImagen.png")
                 };
             }
-
-            var imagePath = $"{ basePath }\\{ entityName }\\{ name }";
-            var contentType = name.Contains(".") ? $"image/{ name.Split(".")[1] }" : "image/jpg";
 
             return new ImageDto()
             {

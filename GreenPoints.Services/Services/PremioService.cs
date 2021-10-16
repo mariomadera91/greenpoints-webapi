@@ -51,6 +51,8 @@ namespace GreenPoints.Services
                 Description = premio.Descripcion,
                 Desde = premio.VigenciaDesde,
                 Hasta = premio.VigenciaHasta,
+                Puntos = premio.Puntos,
+                Observacion = premio.Observacion,
                 Imagen = $"{ _configuration.GetSection("siteUrl").Value }/premio/image?name={ premio.Imagen }"
             };
         }
