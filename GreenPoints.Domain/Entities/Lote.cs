@@ -9,7 +9,7 @@ namespace GreenPoints.Domain
         public DateTime FechaCreacion { get; set; }
         public DateTime? FechaCierre { get; set; }
         public bool Abierto { get; set; }
-        public int PlantaId { get; set; }
+        public int? PlantaId { get; set; }
         public TipoReciclable Tipo { get; set; }
         public Planta Planta { get; set; }
     }

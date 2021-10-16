@@ -9,8 +9,8 @@ namespace GreenPoints.Data
 {
     public interface ILoteRepository
     {
+        List<Lote> GetByPunto(int puntoId);
         List<Lote> GetActiveByPunto(int puntoId);
         Lote GetActiveByTipoRecicable(int puntoId, int tipoId);
-
     }
 }
