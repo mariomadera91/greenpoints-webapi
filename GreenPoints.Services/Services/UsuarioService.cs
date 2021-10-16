@@ -54,20 +54,25 @@ namespace GreenPoints.Services.Services
 
              int? id = null;
 
+            var nombre = string.Empty;
+
             if (user.Rol == UserRol.SocioReciclador) 
             {
                 var socioReciclador = _socioRecicladorRepository.GetByUsuarioId(user.Id);
                 id = socioReciclador.Id;
+                nombre = socioReciclador.Nombre;
             }
             else if (user.Rol == UserRol.PuntoReciclaje)
             {
                 var puntoReciclaje = _puntoReciclajeRepository.GetPuntoReciclaje(user.Id);
                 id = puntoReciclaje.Id;
+                nombre = puntoReciclaje.Nombre;
             }
 
                 return new UsuarioDto()
             {
                 User = user.UserName,
+                Nombre = nombre,
                 Id = id,
                 Imagen = null,
                 Rol = user.Rol,
