@@ -16,6 +16,7 @@ namespace GreenPoints.Data
                     .Where(x => x.Activo && x.Stock > 0
                                 && (x.VigenciaDesde <= DateTime.Now)
                                 && (!x.VigenciaHasta.HasValue || x.VigenciaHasta >= DateTime.Now))
+                    .OrderByDescending(x => x.Fecha)
                     .ToList();
             }
         }

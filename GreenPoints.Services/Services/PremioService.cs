@@ -95,9 +95,23 @@ namespace GreenPoints.Services
 
         public List<PremioListDto> GetTop()
         {
-            var premios = _premioRepository.GetTop();
+            var topPremios = _premioRepository.GetTop();
 
-            return premios.Select(x => new PremioListDto()
+            if(topPremios.Count < 5)
+            {
+                var premios = _premioRepository.Get();
+                foreach (var premio in premios)
+                {
+                    if(!topPremios.Contains(premio))
+                    {
+                        topPremios.Add(premio);
+                    }
+                    if (topPremios.Count == 5)
+                        break;
+                }
+            }
+
+            return topPremios.Select(x => new PremioListDto()
             {
                 Id = x.Id,
                 Nombre = x.Nombre,
