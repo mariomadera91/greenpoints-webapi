@@ -12,5 +12,7 @@ namespace GreenPoints.Domain
         void UpdatePremioCodigo(PremioCodigo premioCodigo);
 
         void CreateSocioPremio(SocioPremio socioPremio);
+
+        List<Premio> GetTop();
     }
 }

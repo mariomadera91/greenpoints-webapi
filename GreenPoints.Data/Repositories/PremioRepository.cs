@@ -64,5 +64,27 @@ namespace GreenPoints.Data
             }
         }
 
+        public List<Premio> GetTop()
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                var premios = _context.SociosPremios
+                    .Include(x => x.Premio).ThenInclude(y => y.Sponsor)
+                    .Where(x => x.Premio.Activo)
+                    .ToList()
+                    .GroupBy(x => x.PremioId).Select(m => new
+                    {
+                        PremioId = m.Key,
+                        Premio = m.First().Premio,
+                        Count = m.Count()
+                    })
+                    .OrderByDescending(x => x.Count)
+                    .Take(5)
+                    .Select(x => x.Premio)
+                    .ToList();
+
+                return premios;
+            }
+        }
     }
 }

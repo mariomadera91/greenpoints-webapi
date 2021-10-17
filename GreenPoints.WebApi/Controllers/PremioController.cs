@@ -54,5 +54,13 @@ namespace GreenPoints.WebApi.Controllers
             var codigo = _premioService.Exchange(exchangeModel.PremioId, exchangeModel.SocioId);
             return Ok(codigo);
         }
+
+        [HttpGet]
+        [Route("top")]
+        public IActionResult GetTop()
+        {
+            var premios = _premioService.GetTop();
+            return Ok(premios);
+        }
     }
 }

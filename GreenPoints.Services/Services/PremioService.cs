@@ -92,5 +92,19 @@ namespace GreenPoints.Services
 
             return premioCodigo.Codigo;
         }
+
+        public List<PremioListDto> GetTop()
+        {
+            var premios = _premioRepository.GetTop();
+
+            return premios.Select(x => new PremioListDto()
+            {
+                Id = x.Id,
+                Nombre = x.Nombre,
+                Points = x.Puntos.ToString(),
+                SponsorName = x.Sponsor.Nombre,
+                Imagen = $"{ _configuration.GetSection("siteUrl").Value }/premio/image?name={ x.Imagen }"
+            }).ToList();
+        }
     }
 }
