@@ -1,9 +1,5 @@
 ﻿using GreenPoints.Domain;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GreenPoints.Data
 {
@@ -12,5 +8,6 @@ namespace GreenPoints.Data
         List<Lote> GetByPunto(int puntoId);
         List<Lote> GetActiveByPunto(int puntoId);
         Lote GetActiveByTipoRecicable(int puntoId, int tipoId);
+        void Create(Lote lote);
     }
 }

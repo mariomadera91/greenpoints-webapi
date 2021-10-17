@@ -1,4 +1,5 @@
 ﻿using GreenPoints.Services.Interfaces;
+using GreenPoints.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,28 @@ namespace GreenPoints.WebApi.Controllers
         public LoteController(ILoteService loteService)
         {
             _loteService = loteService;
+        }
+
+
+        [HttpPost]
+        public ActionResult Get([FromBody] LoteModel loteModel )
+        {
+            if (loteModel == null || loteModel.PuntoId == 0 || loteModel.TipoReciclableId == 0)
+            {
+                return BadRequest("Faltan argumentos");
+            }
+
+            var lote = _loteService.Post(loteModel.PuntoId, loteModel.TipoReciclableId);
+
+            if(lote != null)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("Ya éxiste un lote activo");
+            }
+            
         }
 
         [HttpGet]

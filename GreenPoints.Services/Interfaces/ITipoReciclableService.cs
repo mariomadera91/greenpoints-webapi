@@ -7,5 +7,7 @@ namespace GreenPoints.Services
         List<TipoReciclableDto> Get();
 
         List<TipoReciclableDto> GetByPunto(int puntoId);
+
+        ImageDto GetImage(string name);
     }
 }

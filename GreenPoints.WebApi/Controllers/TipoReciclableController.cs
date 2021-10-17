@@ -30,5 +30,13 @@ namespace GreenPoints.WebApi.Controllers
 
             return Ok(tipoReciclables);
         }
+
+        [HttpGet]
+        [Route("image")]
+        public IActionResult GetTipoReciclableImage(string name)
+        {
+            var imageDto = _tipoReciclableService.GetImage(name);
+            return File(imageDto.Image, imageDto.ContentType);
+        }
     }
 }

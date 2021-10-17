@@ -7,5 +7,7 @@ namespace GreenPoints.Services
         public int Id { get; set; }
         public string TipoMaterialNombre { get; set; }
         public DateTime? Fecha { get; set; }
+        public string Imagen { get; set; }
+        public bool Abierto { get; set; }
     }
 }

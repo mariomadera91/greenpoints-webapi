@@ -7,6 +7,15 @@ namespace GreenPoints.Data
 {
     public class LoteRepository : ILoteRepository
     {
+        public void Create(Lote lote)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                _context.Lotes.Add(lote);
+                _context.SaveChanges();
+            }
+        }
+
         public List<Lote> GetActiveByPunto(int puntoId)
         {
             using (var _context = new GreenPointsContext())
