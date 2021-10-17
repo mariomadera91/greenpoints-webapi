@@ -120,9 +120,9 @@ namespace GreenPoints.WebApi.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{id}")]
-        [Route("socio-reciclador/premios")]
-        public ActionResult GetSocioRecicladorPremioDetail([FromQuery] int id)
+        [HttpGet]
+        [Route("socio-reciclador/premio")]
+        public ActionResult GetSocioRecicladorPremiosDetail([FromQuery] int socioPremioId)
         {
 
             return Ok();
