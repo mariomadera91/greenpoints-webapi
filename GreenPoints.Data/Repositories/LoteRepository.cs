@@ -36,7 +36,10 @@ namespace GreenPoints.Data
         {
             using (var _context = new GreenPointsContext())
             {
-                return _context.Lotes.Where(x => x.Id == id).FirstOrDefault();
+                return _context.Lotes
+                    .Include(x => x.Planta)
+                    .Include(x => x.Tipo)
+                    .Where(x => x.Id == id).FirstOrDefault();
             }
         }
 

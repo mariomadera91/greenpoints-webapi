@@ -33,6 +33,22 @@ namespace GreenPoints.Services
             }).ToList();
         }
 
+        public LoteDto GetbyId(int loteId)
+        {
+            var lote = _loteRepository.GetById(loteId);
+
+            return new LoteDto()
+            {
+                Id = lote.Id,
+                Abierto = lote.Abierto,
+                FechaCreacion = lote.FechaCreacion,
+                FechaCierre = lote.FechaCierre,
+                TipoMaterialNombre = lote.Tipo.Nombre,
+                PlantaNombre = (lote.Planta != null) ? lote.Planta.Nombre : null,
+                Imagen = $"{ _configuration.GetSection("siteUrl").Value }/tipo-reciclable/image?name={ lote.Tipo.Imagen }"
+            };
+        }
+
         public Lote Post(int puntoId, int tipoReciclableId)
         {
             var loteDb = _loteRepository.GetActiveByTipoRecicable(puntoId, tipoReciclableId);

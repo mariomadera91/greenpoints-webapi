@@ -41,7 +41,7 @@ namespace GreenPoints.WebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult Get(int puntoId)
+        public ActionResult GetByPunto(int puntoId)
         {
             if (puntoId == 0)
             {
@@ -51,6 +51,18 @@ namespace GreenPoints.WebApi.Controllers
             var lotes = _loteService.Get(puntoId);
 
             return Ok(lotes);
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult GetById(int id)
+        {
+            if (id == 0)
+            {
+                return BadRequest();
+            }
+
+            var lote = _loteService.GetbyId(id);
+            return Ok(lote);
         }
 
         [HttpPut]
