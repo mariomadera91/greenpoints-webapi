@@ -110,6 +110,23 @@ namespace GreenPoints.WebApi.Controllers
             return Ok(puntos);
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("socio-reciclador/premios")]
+        public ActionResult GetSocioRecicladorPremios([FromQuery] int socioId)
+        {
+
+            return Ok();
+        }
+
+        [AllowAnonymous]
+        [HttpGet("{id}")]
+        [Route("socio-reciclador/premios")]
+        public ActionResult GetSocioRecicladorPremioDetail([FromQuery] int id)
+        {
+
+            return Ok();
+        }
         private static string GetSHA256(string str)
         {
             SHA256 sha256 = SHA256Managed.Create();
