@@ -54,5 +54,16 @@ namespace GreenPoints.Services
 
             return lote;
         }
+
+        public void Update(int loteId, int plantaId)
+        {
+            var lote = _loteRepository.GetById(loteId);
+
+            lote.PlantaId = plantaId;
+            lote.FechaCierre = DateTime.Now;
+            lote.Abierto = false;
+
+            _loteRepository.Update(lote);
+        }
     }
 }

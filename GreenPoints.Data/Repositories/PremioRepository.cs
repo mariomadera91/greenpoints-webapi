@@ -87,5 +87,15 @@ namespace GreenPoints.Data
                 return premios;
             }
         }
+
+        public List<SocioPremio> GetSocioPremioBySocio(int socioId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SocioPremio GetSocioPremio(int socioPremioId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

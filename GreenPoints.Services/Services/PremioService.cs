@@ -120,5 +120,15 @@ namespace GreenPoints.Services
                 Imagen = $"{ _configuration.GetSection("siteUrl").Value }/premio/image?name={ x.Imagen }"
             }).ToList();
         }
+
+        public List<SocioPremioListDto> GetSocioPremioBySocio(int socioId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SocioPremioDto GetSocioPremio(int socioPremioId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

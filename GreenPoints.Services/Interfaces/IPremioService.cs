@@ -13,5 +13,9 @@ namespace GreenPoints.Services
         string Exchange(int premioId, int socioId);
 
         List<PremioListDto> GetTop();
+
+        List<SocioPremioListDto> GetSocioPremioBySocio(int socioId);
+
+        SocioPremioDto GetSocioPremio(int socioPremioId);
     }
 }

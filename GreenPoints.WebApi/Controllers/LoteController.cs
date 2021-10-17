@@ -1,4 +1,5 @@
-﻿using GreenPoints.Services.Interfaces;
+﻿using GreenPoints.Services;
+using GreenPoints.Services.Interfaces;
 using GreenPoints.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,7 +20,7 @@ namespace GreenPoints.WebApi.Controllers
 
 
         [HttpPost]
-        public ActionResult Get([FromBody] LoteModel loteModel )
+        public ActionResult Get([FromBody] LoteModel loteModel)
         {
             if (loteModel == null || loteModel.PuntoId == 0 || loteModel.TipoReciclableId == 0)
             {
@@ -50,6 +51,19 @@ namespace GreenPoints.WebApi.Controllers
             var lotes = _loteService.Get(puntoId);
 
             return Ok(lotes);
+        }
+
+        [HttpPut]
+        public ActionResult Put([FromBody] UpdateLoteDto updateLoteDto)
+        {
+            if (updateLoteDto == null || updateLoteDto.PlantaId == 0)
+            {
+                return BadRequest();
+            }
+
+            _loteService.Update(updateLoteDto.LoteId, updateLoteDto.PlantaId);
+
+            return Ok();
         }
     }
 }
