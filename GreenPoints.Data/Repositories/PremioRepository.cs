@@ -87,5 +87,13 @@ namespace GreenPoints.Data
                 return premios;
             }
         }
+
+        public Premio GetById(int id)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                return _context.Premios.Where(x => x.Id == id).FirstOrDefault();
+            }
+        }
     }
 }
