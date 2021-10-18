@@ -14,13 +14,16 @@ namespace GreenPoints.WebApi.Controllers
         private readonly IUsuarioService _usuarioService;
         private readonly ISocioRecicladorService _socioRecicladorService;
         private readonly IPuntoReciclajeService _puntoReciclajeService;
+        private readonly IPremioService _premioService;
         public UsuarioController(IUsuarioService usuarioService,
                                  ISocioRecicladorService socioRecicladorService,
-                                 IPuntoReciclajeService puntoReciclajeService)
+                                 IPuntoReciclajeService puntoReciclajeService,
+                                 IPremioService premioService)
         {
             _usuarioService = usuarioService;
             _socioRecicladorService = socioRecicladorService;
             _puntoReciclajeService = puntoReciclajeService;
+            _premioService = premioService;
 
         }
 
@@ -116,7 +119,8 @@ namespace GreenPoints.WebApi.Controllers
         public ActionResult GetSocioRecicladorPremios([FromQuery] int socioId)
         {
 
-            return Ok();
+            var premios = _premioService.GetSocioPremioBySocio(socioId);
+            return Ok(premios);
         }
 
         [AllowAnonymous]
@@ -125,7 +129,8 @@ namespace GreenPoints.WebApi.Controllers
         public ActionResult GetSocioRecicladorPremiosDetail([FromQuery] int socioPremioId)
         {
 
-            return Ok();
+            var premio = _premioService.GetSocioPremio(socioPremioId);
+            return Ok(premio);
         }
         private static string GetSHA256(string str)
         {

@@ -123,12 +123,30 @@ namespace GreenPoints.Services
 
         public List<SocioPremioListDto> GetSocioPremioBySocio(int socioId)
         {
-            throw new NotImplementedException();
+            var sociosPremios = _premioRepository.GetSocioPremioBySocio(socioId);
+
+            return sociosPremios.Select(x => new SocioPremioListDto()
+            {
+                Id = x.Id,
+                Nombre = x.Premio.Nombre,
+                Hasta = x.Premio.VigenciaHasta,
+                Obtencion = x.Fecha,
+                Imagen = $"{ _configuration.GetSection("siteUrl").Value }/premio/image?name={ x.Premio.Imagen }"
+            }).ToList();
         }
 
         public SocioPremioDto GetSocioPremio(int socioPremioId)
         {
-            throw new NotImplementedException();
+            var socioPremio = _premioRepository.GetSocioPremio(socioPremioId);
+
+            return new SocioPremioDto()
+            {
+                Id = socioPremio.Id,
+                Nombre = socioPremio.Premio.Nombre,
+                Hasta = socioPremio.Premio.VigenciaHasta,
+                Codigo = socioPremio.Codigo.Codigo,
+                Imagen = $"{ _configuration.GetSection("siteUrl").Value }/premio/image?name={ socioPremio.Premio.Imagen }"
+            };
         }
     }
 }
