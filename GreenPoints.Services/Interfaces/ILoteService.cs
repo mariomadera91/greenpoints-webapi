@@ -8,5 +8,9 @@ namespace GreenPoints.Services.Interfaces
         List<LoteListDto> Get(int puntoId);
 
         Lote Post(int puntoId, int tipoReciclableId);
+
+        void Update(int loteId, int plantaId);
+
+        LoteDto GetbyId(int loteId);
     }
 }

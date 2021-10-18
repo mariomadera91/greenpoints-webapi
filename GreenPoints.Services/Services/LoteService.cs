@@ -33,6 +33,22 @@ namespace GreenPoints.Services
             }).ToList();
         }
 
+        public LoteDto GetbyId(int loteId)
+        {
+            var lote = _loteRepository.GetById(loteId);
+
+            return new LoteDto()
+            {
+                Id = lote.Id,
+                Abierto = lote.Abierto,
+                FechaCreacion = lote.FechaCreacion,
+                FechaCierre = lote.FechaCierre,
+                TipoMaterialNombre = lote.Tipo.Nombre,
+                PlantaNombre = (lote.Planta != null) ? lote.Planta.Nombre : null,
+                Imagen = $"{ _configuration.GetSection("siteUrl").Value }/tipo-reciclable/image?name={ lote.Tipo.Imagen }"
+            };
+        }
+
         public Lote Post(int puntoId, int tipoReciclableId)
         {
             var loteDb = _loteRepository.GetActiveByTipoRecicable(puntoId, tipoReciclableId);
@@ -53,6 +69,17 @@ namespace GreenPoints.Services
             _loteRepository.Create(lote);
 
             return lote;
+        }
+
+        public void Update(int loteId, int plantaId)
+        {
+            var lote = _loteRepository.GetById(loteId);
+
+            lote.PlantaId = plantaId;
+            lote.FechaCierre = DateTime.Now;
+            lote.Abierto = false;
+
+            _loteRepository.Update(lote);
         }
     }
 }

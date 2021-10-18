@@ -8,14 +8,17 @@ namespace GreenPoints.Services
 {
     public class SocioRecicladorService : ISocioRecicladorService
     {
-        private ISocioRecicladorRepository _socioRecicladorRepository;
-        private IUsuarioRepository _usuarioRepository;
-        public SocioRecicladorService(ISocioRecicladorRepository socioRecicladorRepository,
-                                      IUsuarioRepository usuarioRepository)
+        private readonly ISocioRecicladorRepository _socioRecicladorRepository;
+        private readonly IPremioRepository _premioRepository;
+
+        public SocioRecicladorService(
+            ISocioRecicladorRepository socioRecicladorRepository,
+            IPremioRepository premioRepository)
         {
             _socioRecicladorRepository = socioRecicladorRepository;
-            _usuarioRepository = usuarioRepository;
+            _premioRepository = premioRepository;
         }
+
         public void Create(CreateSocioRecicladorDto socioDto)
         {
 

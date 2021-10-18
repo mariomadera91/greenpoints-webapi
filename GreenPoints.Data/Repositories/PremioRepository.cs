@@ -88,12 +88,23 @@ namespace GreenPoints.Data
             }
         }
 
+<<<<<<< HEAD
         public Premio GetById(int id)
         {
             using (var _context = new GreenPointsContext())
             {
                 return _context.Premios.Where(x => x.Id == id).FirstOrDefault();
             }
+=======
+        public List<SocioPremio> GetSocioPremioBySocio(int socioId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SocioPremio GetSocioPremio(int socioPremioId)
+        {
+            throw new NotImplementedException();
+>>>>>>> 395afede58e3f04c7a2afe612bd53e6a2a1eadfb
         }
     }
 }

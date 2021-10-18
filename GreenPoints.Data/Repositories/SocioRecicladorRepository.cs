@@ -51,5 +51,18 @@ namespace GreenPoints.Data
                 _context.SaveChanges();
             }
         }
+
+        public void Update(List<SocioReciclador> socios)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                foreach (var socio in socios)
+                {
+                    _context.SociosRecicladores.Update(socio);
+                }
+                
+                _context.SaveChanges();
+            }
+        }
     }
 }

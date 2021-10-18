@@ -1,18 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using GreenPoints.Domain;
+using System.Collections.Generic;
 
-namespace GreenPoints.Domain
+namespace GreenPoints.Data
 {
     public interface IPremioRepository
     {
         List<Premio> Get();
+
         Premio GetById(int id);
+
         void Update(Premio premio);
 
         PremioCodigo GetPremioCodigo(int premioId);
+
         void UpdatePremioCodigo(PremioCodigo premioCodigo);
 
         void CreateSocioPremio(SocioPremio socioPremio);
 
         List<Premio> GetTop();
+
+        List<SocioPremio> GetSocioPremioBySocio(int socioId);
+
+        SocioPremio GetSocioPremio(int socioPremioId);
     }
 }

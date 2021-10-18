@@ -32,12 +32,32 @@ namespace GreenPoints.Data
             }
         }
 
+        public Lote GetById(int id)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                return _context.Lotes
+                    .Include(x => x.Planta)
+                    .Include(x => x.Tipo)
+                    .Where(x => x.Id == id).FirstOrDefault();
+            }
+        }
+
         public List<Lote> GetByPunto(int puntoId)
         {
             using (var _context = new GreenPointsContext())
             {
                 return _context.Lotes.Include(x=>x.Tipo)
                     .Where(x => x.PuntoId == puntoId).ToList();
+            }
+        }
+
+        public void Update(Lote lote)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                _context.Update(lote);
+                _context.SaveChanges();
             }
         }
     }
