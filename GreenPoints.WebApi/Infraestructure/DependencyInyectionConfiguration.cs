@@ -24,6 +24,7 @@ namespace GreenPoints.WebApi
             services.AddTransient<IImageService, ImageService>();
             services.AddTransient<ILoteService, LoteService>();
             services.AddTransient<IPlantaService, PlantaService>();
+            services.AddTransient<IDonacionService, DonacionService>();
 
             // repositories
             services.AddTransient<IPremioRepository, PremioRepository>();
