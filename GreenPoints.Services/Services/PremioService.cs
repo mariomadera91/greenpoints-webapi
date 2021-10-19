@@ -143,6 +143,8 @@ namespace GreenPoints.Services
             {
                 Id = socioPremio.Id,
                 Nombre = socioPremio.Premio.Nombre,
+                Descripcion = socioPremio.Premio.Descripcion,
+                Observacion = socioPremio.Premio.Observacion,
                 Hasta = socioPremio.Premio.VigenciaHasta,
                 Codigo = socioPremio.Codigo.Codigo,
                 Imagen = $"{ _configuration.GetSection("siteUrl").Value }/premio/image?name={ socioPremio.Premio.Imagen }"
