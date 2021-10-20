@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace GreenPoints.WebApi.Controllers
@@ -20,7 +21,7 @@ namespace GreenPoints.WebApi.Controllers
 
 
         [HttpPost]
-        public ActionResult Get([FromBody] LoteModel loteModel)
+        public ActionResult Post([FromBody] LoteModel loteModel)
         {
             if (loteModel == null || loteModel.PuntoId == 0 || loteModel.TipoReciclableId == 0)
             {
@@ -35,7 +36,7 @@ namespace GreenPoints.WebApi.Controllers
             }
             else
             {
-                return BadRequest("Ya éxiste un lote activo");
+                return BadRequest("Ya éxiste un lote activo para el tipo de material seleccionado");
             }
             
         }

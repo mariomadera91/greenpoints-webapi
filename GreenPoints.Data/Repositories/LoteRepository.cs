@@ -28,7 +28,7 @@ namespace GreenPoints.Data
         {
             using (var _context = new GreenPointsContext())
             {
-              return  _context.Lotes.Where(x => x.PuntoId == puntoId && x.TipoId == tipoId && x.Abierto).First();
+              return  _context.Lotes.Where(x => x.PuntoId == puntoId && x.TipoId == tipoId && x.Abierto).FirstOrDefault();
             }
         }
 
