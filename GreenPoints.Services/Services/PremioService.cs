@@ -132,7 +132,7 @@ namespace GreenPoints.Services
                 Hasta = x.Premio.VigenciaHasta,
                 Obtencion = x.Fecha,
                 Imagen = $"{ _configuration.GetSection("siteUrl").Value }/premio/image?name={ x.Premio.Imagen }"
-            }).ToList();
+            }).OrderByDescending(x => x.Obtencion).ToList();
         }
 
         public SocioPremioDto GetSocioPremio(int socioPremioId)
