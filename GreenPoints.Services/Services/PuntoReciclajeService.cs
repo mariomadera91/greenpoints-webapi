@@ -73,7 +73,7 @@ namespace GreenPoints.Services
 
                 for (int i = 1; i < tipos.Count - 1; i++)
                 {
-                    description += $", { tipos[0].Nombre }";
+                    description += $", { tipos[i].Nombre }";
                 }
 
                 description += $" y { tipos[tipos.Count - 1].Nombre }.";
