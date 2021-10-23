@@ -1,6 +1,7 @@
 ﻿using GreenPoints.Data;
 using GreenPoints.Domain;
 using System;
+using System.Transactions;
 
 namespace GreenPoints.Services
 {
@@ -8,13 +9,16 @@ namespace GreenPoints.Services
     {
         private IPremioRepository _premioRepository;
         private ISocioRecicladorRepository _socioRecicladorRepository;
+        private IMovimientoPuntosRepository _movimientoPuntosRepository;
 
         public CanjeService(
             IPremioRepository premioRepository,
-            ISocioRecicladorRepository socioRecicladorRepository)
+            ISocioRecicladorRepository socioRecicladorRepository,
+            IMovimientoPuntosRepository movimientoPuntosRepository)
         {
             _premioRepository = premioRepository;
             _socioRecicladorRepository = socioRecicladorRepository;
+            _movimientoPuntosRepository = movimientoPuntosRepository;
         }
 
         public string Post(int premioId, int socioId)
@@ -28,22 +32,37 @@ namespace GreenPoints.Services
                 throw new Exception("No tiene puntos suficientes");
             }
 
-            _premioRepository.CreateSocioPremio(new SocioPremio()
+            using (var scope = new TransactionScope())
             {
-                CodigoId = premioCodigo.Id,
-                Fecha = DateTime.Now,
-                PremioId = premioId,
-                SocioId = socioId
-            });
+                _premioRepository.CreateSocioPremio(new SocioPremio()
+                {
+                    CodigoId = premioCodigo.Id,
+                    Fecha = DateTime.Now,
+                    PremioId = premioId,
+                    SocioId = socioId
+                });
 
-            socio.Puntos -= premio.Puntos;
-            _socioRecicladorRepository.Update(socio);
+                _movimientoPuntosRepository.Create(new MovimientoPuntos()
+                {
+                    Cantidad = -premio.Puntos,
+                    Fecha = DateTime.Now,
+                    SocioId = socioId,
+                    Descripcion = $"Canje { premio.Nombre }",
+                    Tipo = TipoMovimiento.Canje
+                });
 
-            premio.Stock -= 1;
-            _premioRepository.Update(premio);
+                socio.Puntos -= premio.Puntos;
+                _socioRecicladorRepository.Update(socio);
 
-            premioCodigo.Activo = false;
-            _premioRepository.UpdatePremioCodigo(premioCodigo);
+                premio.Stock -= 1;
+                _premioRepository.Update(premio);
+
+                premioCodigo.Activo = false;
+                _premioRepository.UpdatePremioCodigo(premioCodigo);
+
+                scope.Complete();
+            }
+            
 
             return premioCodigo.Codigo;
         }

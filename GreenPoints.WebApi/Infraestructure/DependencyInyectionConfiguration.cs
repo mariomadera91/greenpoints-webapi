@@ -14,6 +14,8 @@ namespace GreenPoints.WebApi
         {
             services.AddSingleton<IConfiguration>(configuration);
 
+            services.AddDbContext<GreenPointsContext>();
+
             // services
             services.AddTransient<IPremioService, PremioService>();
             services.AddTransient<ICanjeService, CanjeService>();

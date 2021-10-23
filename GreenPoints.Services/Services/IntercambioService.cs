@@ -3,6 +3,7 @@ using GreenPoints.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Transactions;
 
 namespace GreenPoints.Services
 {
@@ -10,13 +11,16 @@ namespace GreenPoints.Services
     {
         private IIntercambioRepository _intercambioRepository;
         private ILoteRepository _loteRepository;
+        private IMovimientoPuntosRepository _movimientoPuntosRepository;
 
         public IntercambioService(
             IIntercambioRepository intercambioRepository,
-            ILoteRepository loteRepository)
+            ILoteRepository loteRepository,
+            IMovimientoPuntosRepository movimientoPuntosRepository)
         {
             _intercambioRepository = intercambioRepository;
             _loteRepository = loteRepository;
+            _movimientoPuntosRepository = movimientoPuntosRepository;
         }
 
         public List<IntercambioListDto> GetBySocio(int socioId)
@@ -79,28 +83,43 @@ namespace GreenPoints.Services
 
         public void Post(CreateIntercambioDto createIntercambioDto)
         {
-
-            var intercambio = new Intercambio()
+            using (var scope = new TransactionScope())
             {
-                PuntoId = createIntercambioDto.PuntoId,
-                SocioId = createIntercambioDto.SocioId,
-                Fecha = DateTime.Today,
-                Puntos = createIntercambioDto.TipoReciclaje.Sum(x=>x.Puntos),
-                IntercambioTipoReciclables = new List<IntercambioTipoReciclable>()
-
-            };
-
-            foreach (var tipoReciclaje in createIntercambioDto.TipoReciclaje)
-            {
-                intercambio.IntercambioTipoReciclables.Add(new IntercambioTipoReciclable()
+                var intercambio = new Intercambio()
                 {
-                    TipoId = tipoReciclaje.TipoId,
-                    Peso = tipoReciclaje.Peso,
-                    Puntos = tipoReciclaje.Puntos,
-                    LoteId = _loteRepository.GetActiveByTipoRecicable(createIntercambioDto.PuntoId,  tipoReciclaje.TipoId).Id
+                    PuntoId = createIntercambioDto.PuntoId,
+                    SocioId = createIntercambioDto.SocioId,
+                    Fecha = DateTime.Today,
+                    Puntos = createIntercambioDto.TipoReciclaje.Sum(x => x.Puntos),
+                    IntercambioTipoReciclables = new List<IntercambioTipoReciclable>()
+                };
+
+                var intercambioNumber = _intercambioRepository.GetBySocio(intercambio.SocioId).Count() + 1;
+
+                foreach (var tipoReciclaje in createIntercambioDto.TipoReciclaje)
+                {
+                    intercambio.IntercambioTipoReciclables.Add(new IntercambioTipoReciclable()
+                    {
+                        TipoId = tipoReciclaje.TipoId,
+                        Peso = tipoReciclaje.Peso,
+                        Puntos = tipoReciclaje.Puntos,
+                        LoteId = _loteRepository.GetActiveByTipoRecicable(createIntercambioDto.PuntoId, tipoReciclaje.TipoId).Id
+                    });
+                }
+                
+                _intercambioRepository.Create(intercambio);
+
+                _movimientoPuntosRepository.Create(new MovimientoPuntos()
+                {
+                    Cantidad = intercambio.Puntos,
+                    Fecha = DateTime.Now,
+                    SocioId = intercambio.SocioId,
+                    Descripcion = $"Intercambio #{ intercambioNumber.ToString() }",
+                    Tipo = TipoMovimiento.Intercambio
                 });
+
+                scope.Complete();
             }
-            _intercambioRepository.Create(intercambio);
         }
 
     }
