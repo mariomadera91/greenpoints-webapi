@@ -10,8 +10,6 @@ namespace GreenPoints.Services
 
         ImageDto GetImage(string name);
 
-        string Exchange(int premioId, int socioId);
-
         List<PremioListDto> GetTop();
 
         List<SocioPremioListDto> GetSocioPremioBySocio(int socioId);

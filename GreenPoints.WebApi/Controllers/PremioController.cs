@@ -47,13 +47,6 @@ namespace GreenPoints.WebApi.Controllers
             return File(imageDto.Image, imageDto.ContentType);
         }
 
-        [HttpPost]
-        [Route("exchange")]
-        public IActionResult Exchange([FromBody] ExchangeModel exchangeModel)
-        {
-            var codigo = _premioService.Exchange(exchangeModel.PremioId, exchangeModel.SocioId);
-            return Ok(codigo);
-        }
 
         [HttpGet]
         [Route("top")]

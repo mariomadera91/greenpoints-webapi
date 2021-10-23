@@ -16,6 +16,7 @@ namespace GreenPoints.WebApi
 
             // services
             services.AddTransient<IPremioService, PremioService>();
+            services.AddTransient<ICanjeService, CanjeService>();
             services.AddTransient<IUsuarioService, UsuarioService>();
             services.AddTransient<ISocioRecicladorService, SocioRecicladorService>();
             services.AddTransient<IPuntoReciclajeService, PuntoReciclajeService>();
