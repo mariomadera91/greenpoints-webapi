@@ -18,7 +18,7 @@ namespace GreenPoints.Services
             return _movimientoPuntosRepository.GetBySocio(socioId).Select(x => new MovimientoPuntosDto()
             {
                 Tipo = x.Tipo.ToString(),
-                Cantidad = x.Cantidad > 0 ? $"+{ x.Cantidad.ToString() }" : $"-{ x.Cantidad.ToString() }",
+                Cantidad = x.Cantidad > 0 ? $"+{ x.Cantidad.ToString() }" : $"{ x.Cantidad.ToString() }",
                 Fecha = x.Fecha,
                 Descripcion = x.Descripcion,
                 Aumentar = x.Cantidad > 0 ? true : false
