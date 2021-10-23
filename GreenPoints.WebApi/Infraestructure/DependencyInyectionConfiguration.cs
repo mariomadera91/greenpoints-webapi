@@ -26,6 +26,7 @@ namespace GreenPoints.WebApi
             services.AddTransient<ILoteService, LoteService>();
             services.AddTransient<IPlantaService, PlantaService>();
             services.AddTransient<IDonacionService, DonacionService>();
+            services.AddTransient<IMovimientoPuntosService, MovimientoPuntosService>();
 
             // repositories
             services.AddTransient<IPremioRepository, PremioRepository>();
@@ -36,6 +37,7 @@ namespace GreenPoints.WebApi
             services.AddTransient<ITipoReciclableRepository, TipoReciclableRepository>();
             services.AddTransient<ILoteRepository, LoteRepository>();
             services.AddTransient<IPlantaRepository, PlantaRepository>();
+            services.AddTransient<IMovimientoPuntosRepository, MovimientoPuntosRepository>();
 
             return services;
         }

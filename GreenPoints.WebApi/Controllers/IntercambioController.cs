@@ -1,6 +1,4 @@
 ﻿using GreenPoints.Services;
-using GreenPoints.WebApi.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GreenPoints.WebApi.Controllers
