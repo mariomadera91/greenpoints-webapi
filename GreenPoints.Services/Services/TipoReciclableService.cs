@@ -33,18 +33,20 @@ namespace GreenPoints.Services
             }).ToList();
         }
 
-        public List<TipoReciclableDto> GetByPunto(int puntoId)
+        public List<TipoReciclableDto> GetByPunto(int puntoId, bool onlyOpenedLote)
         {
             var lotes = _loteRepository.GetActiveByPunto(puntoId);
+
             return _tipoReciclableRepository.GetByPunto(puntoId)
-                .Where(x=> lotes.Any(y => y.TipoId == x.Id ))
+                .Where(x => !onlyOpenedLote || lotes.Any(y => y.TipoId == x.Id ))
                 .Select(x => new TipoReciclableDto()
             {
                 Id = x.Id,
                 Nombre = x.Nombre,
                 Points = x.PuntosKg,
-                Imagen = $"{ _configuration.GetSection("siteUrl").Value }/tipo-reciclable/image?name={ x.Imagen }"
-            }).ToList();
+                Imagen = $"{ _configuration.GetSection("siteUrl").Value }/tipo-reciclable/image?name={ x.Imagen }",
+                HasActiveLote = lotes.Any(y => y.TipoId == x.Id)
+            }).OrderBy(x => x.HasActiveLote).ToList();
         }
 
         public ImageDto GetImage(string name)
