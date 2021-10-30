@@ -8,6 +8,7 @@ namespace GreenPoints.Services
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public int SponsorId { get; set; }
         public DateTime? Desde { get; set; }
         public DateTime? Hasta { get; set; }
         public int Puntos { get; set; }

@@ -34,7 +34,7 @@ namespace GreenPoints.Services
                 Id = x.Id,
                 Nombre = x.Nombre,
                 Points = x.Puntos.ToString(),
-                SponsorName = x.Sponsor,
+                SponsorName = x.Sponsor.Nombre,
                 Imagen = $"{ _configuration.GetSection("siteUrl").Value }/premio/image?name={ x.Imagen }"
             }).ToList();
         }
@@ -55,6 +55,7 @@ namespace GreenPoints.Services
                 Id = premio.Id,
                 Name = premio.Nombre,
                 Description = premio.Descripcion,
+                SponsorId = premio.SponsorId,
                 Desde = premio.VigenciaDesde,
                 Hasta = premio.VigenciaHasta,
                 Puntos = premio.Puntos,
@@ -92,7 +93,7 @@ namespace GreenPoints.Services
                 Id = x.Id,
                 Nombre = x.Nombre,
                 Points = x.Puntos.ToString(),
-                SponsorName = x.Sponsor,
+                SponsorName = x.Sponsor.Nombre,
                 Imagen = $"{ _configuration.GetSection("siteUrl").Value }/premio/image?name={ x.Imagen }"
             }).ToList();
         }
