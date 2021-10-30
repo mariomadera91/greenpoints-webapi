@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace GreenPoints.Services
 {
@@ -12,5 +13,6 @@ namespace GreenPoints.Services
         public int Puntos { get; set; }
         public string Observacion { get; set; }
         public string Imagen { get; set; }
+        public List<string> Codigos { get; set; }
     }
 }

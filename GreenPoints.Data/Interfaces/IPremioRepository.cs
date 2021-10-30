@@ -26,5 +26,7 @@ namespace GreenPoints.Data
         void CreatePremio(Premio premio);
 
         void CreatePremioCodigos(List<PremioCodigo> premioCodigos);
+
+        List<PremioCodigo> GetPremioCodigos(int premioId);
     }
 }

@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using GreenPoints.Data;
 using System.IO;
 using System;
-using static System.Net.Mime.MediaTypeNames;
 using System.Transactions;
 using GreenPoints.Domain;
 
@@ -40,9 +39,16 @@ namespace GreenPoints.Services
             }).ToList();
         }
 
-        public PremioDto GetDetailById(int id)
+        public PremioDto GetDetailById(int id, bool admin)
         {
             var premio = _premioRepository.GetById(id);
+
+            List<string> codigos = null;
+
+            if (admin)
+            {
+                codigos = _premioRepository.GetPremioCodigos(id).Select(x => x.Codigo).ToList();
+            }
 
             return new PremioDto()
             {
@@ -53,7 +59,8 @@ namespace GreenPoints.Services
                 Hasta = premio.VigenciaHasta,
                 Puntos = premio.Puntos,
                 Observacion = premio.Observacion,
-                Imagen = $"{ _configuration.GetSection("siteUrl").Value }/premio/image?name={ premio.Imagen }"
+                Imagen = $"{ _configuration.GetSection("siteUrl").Value }/premio/image?name={ premio.Imagen }",
+                Codigos = codigos
             };
         }
 

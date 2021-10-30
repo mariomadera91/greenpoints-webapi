@@ -127,5 +127,13 @@ namespace GreenPoints.Data
                 _context.SaveChanges();
             }
         }
+
+        public List<PremioCodigo> GetPremioCodigos(int premioId)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                return _context.PremiosCodigos.Where(x => x.PremioId == premioId && x.Activo).ToList();
+            }
+        }
     }
 }

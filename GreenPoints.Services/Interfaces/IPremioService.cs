@@ -6,7 +6,7 @@ namespace GreenPoints.Services
     {
         List<PremioListDto> Get();
 
-        PremioDto GetDetailById(int id);
+        PremioDto GetDetailById(int id, bool admin);
 
         ImageDto GetImage(string name);
 
