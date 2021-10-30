@@ -25,9 +25,9 @@ namespace GreenPoints.WebApi.Controllers
         }
 
         [HttpGet("{puntoId}")]
-        public ActionResult GetByPunto(int puntoId)
+        public ActionResult GetByPunto(int puntoId, bool onlyOpenedLote = true)
         {
-            var tipoReciclables = _tipoReciclableService.GetByPunto(puntoId);
+            var tipoReciclables = _tipoReciclableService.GetByPunto(puntoId, onlyOpenedLote);
 
             return Ok(tipoReciclables);
         }

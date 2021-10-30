@@ -6,5 +6,7 @@
         public string Nombre { get; set; }
         public int Points { get; set; }
         public string Imagen { get; set; }
+
+        public bool HasActiveLote { get; set; }
     }
 }

@@ -22,5 +22,11 @@ namespace GreenPoints.Data
         List<SocioPremio> GetSocioPremioBySocio(int socioId);
 
         SocioPremio GetSocioPremio(int socioPremioId);
+
+        void CreatePremio(Premio premio);
+
+        void CreatePremioCodigos(List<PremioCodigo> premioCodigos);
+
+        List<PremioCodigo> GetPremioCodigos(int premioId);
     }
 }

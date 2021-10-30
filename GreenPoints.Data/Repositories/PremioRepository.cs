@@ -105,5 +105,35 @@ namespace GreenPoints.Data
                 return _context.SociosPremios.Include(x => x.Premio).Include(x => x.Codigo).Where(x => x.Id == socioPremioId).FirstOrDefault();
             }
         }
+
+        public void CreatePremio(Premio premio)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                _context.Premios.Add(premio);
+                _context.SaveChanges();
+            }
+        }
+
+        public void CreatePremioCodigos(List<PremioCodigo> premioCodigos)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                foreach (var premioCodigo in premioCodigos)
+                {
+                    _context.PremiosCodigos.Add(premioCodigo);
+                }
+
+                _context.SaveChanges();
+            }
+        }
+
+        public List<PremioCodigo> GetPremioCodigos(int premioId)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                return _context.PremiosCodigos.Where(x => x.PremioId == premioId && x.Activo).ToList();
+            }
+        }
     }
 }

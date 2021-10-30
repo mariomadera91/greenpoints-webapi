@@ -25,9 +25,9 @@ namespace GreenPoints.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult GetById(int id)
+        public ActionResult GetById(int id, [FromQuery] bool admin = false)
         {
-            var premio = _premioService.GetDetailById(id);
+            var premio = _premioService.GetDetailById(id, admin);
 
             if(premio == null)
             {
@@ -54,6 +54,13 @@ namespace GreenPoints.WebApi.Controllers
         {
             var premios = _premioService.GetTop();
             return Ok(premios);
+        }
+    
+        [HttpPost]
+        public IActionResult Post([FromBody] CreatePremioDto model)
+        {
+            _premioService.Post(model);
+            return Ok();
         }
     }
 }

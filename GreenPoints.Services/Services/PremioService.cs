@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using GreenPoints.Data;
+using System.IO;
+using System;
+using System.Transactions;
+using GreenPoints.Domain;
 
 namespace GreenPoints.Services
 {
@@ -35,9 +39,16 @@ namespace GreenPoints.Services
             }).ToList();
         }
 
-        public PremioDto GetDetailById(int id)
+        public PremioDto GetDetailById(int id, bool admin)
         {
             var premio = _premioRepository.GetById(id);
+
+            List<string> codigos = null;
+
+            if (admin)
+            {
+                codigos = _premioRepository.GetPremioCodigos(id).Select(x => x.Codigo).ToList();
+            }
 
             return new PremioDto()
             {
@@ -48,7 +59,8 @@ namespace GreenPoints.Services
                 Hasta = premio.VigenciaHasta,
                 Puntos = premio.Puntos,
                 Observacion = premio.Observacion,
-                Imagen = $"{ _configuration.GetSection("siteUrl").Value }/premio/image?name={ premio.Imagen }"
+                Imagen = $"{ _configuration.GetSection("siteUrl").Value }/premio/image?name={ premio.Imagen }",
+                Codigos = codigos
             };
         }
 
@@ -114,5 +126,55 @@ namespace GreenPoints.Services
                 Imagen = $"{ _configuration.GetSection("siteUrl").Value }/premio/image?name={ socioPremio.Premio.Imagen }"
             };
         }
+
+        public void Post(CreatePremioDto premioDto)
+        {
+            byte[] bytes = Convert.FromBase64String(premioDto.Image.base64);
+            var imageFileName = Guid.NewGuid() + ".png";
+            var path = $"{ _configuration.GetSection("imagePath").Value }\\premios\\{ imageFileName }";
+
+            using (var scope = new TransactionScope())
+            {
+                var premio = new Premio();
+
+                premio.Nombre = premioDto.Nombre;
+                premio.Descripcion = premioDto.Descripcion;
+                premio.Observacion = (premioDto.Observacion != null) ? 
+                                                    premioDto.Observacion : 
+                                                    _configuration.GetSection("Premio:defaultObservation").Value;
+                premio.Activo = true;
+                premio.Fecha = DateTime.Now;
+                premio.VigenciaDesde = DateTime.ParseExact(premioDto.FechaInicio, "dd-MM-yyyy",null);
+                premio.VigenciaHasta = DateTime.ParseExact(premioDto.FechaVto, "dd-MM-yyyy", null);
+                premio.SponsorId = 2;
+                premio.Imagen = imageFileName;
+                premio.Puntos = premioDto.Puntos;
+                premio.Stock = premioDto.Codigos.Count;
+
+                _premioRepository.CreatePremio(premio);
+
+                if (premioDto.Codigos != null)
+                {
+                    var premioCodigos = new List<PremioCodigo>();
+
+                    foreach (var codigo in premioDto.Codigos)
+                    {
+                        var premioCodigo = new PremioCodigo();
+                        premioCodigo.Activo = true;
+                        premioCodigo.PremioId = premio.Id;
+                        premioCodigo.Codigo = codigo;
+                        premioCodigos.Add(premioCodigo);
+                    }
+
+                    _premioRepository.CreatePremioCodigos(premioCodigos);
+                }
+
+
+                File.WriteAllBytes(path, bytes);
+                scope.Complete();
+            }
+            
+        }
+
     }
 }
