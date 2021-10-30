@@ -55,5 +55,12 @@ namespace GreenPoints.WebApi.Controllers
             var premios = _premioService.GetTop();
             return Ok(premios);
         }
+    
+        [HttpPost]
+        public IActionResult Post([FromBody] CreatePremioDto model)
+        {
+            _premioService.Post(model);
+            return Ok();
+        }
     }
 }

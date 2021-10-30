@@ -15,5 +15,7 @@ namespace GreenPoints.Services
         List<SocioPremioListDto> GetSocioPremioBySocio(int socioId);
 
         SocioPremioDto GetSocioPremio(int socioPremioId);
+
+        void Post(CreatePremioDto premioDto);
     }
 }
