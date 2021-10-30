@@ -28,5 +28,12 @@ namespace GreenPoints.Data
         void CreatePremioCodigos(List<PremioCodigo> premioCodigos);
 
         List<PremioCodigo> GetPremioCodigos(int premioId);
+
+        List<PremioCodigo> GetPremioCodigosBySponsor(int sponsorId);
+
+        void DisablePremioCodigos(List<PremioCodigo> premioCodigos);
+
+        void DisablePremio(List<Premio> premios);
+
     }
 }

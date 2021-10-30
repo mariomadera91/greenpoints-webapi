@@ -5,7 +5,7 @@ using GreenPoints.Services.Interfaces;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
-
+using System.Transactions;
 
 namespace GreenPoints.Services
 {
@@ -14,13 +14,16 @@ namespace GreenPoints.Services
         private ISponsorRepository _sponsorRepository;
         private IImageService _imageService;
         private IConfiguration _configuration;
+        private IPremioRepository _premioRepository;
         public SponsorService(ISponsorRepository sponsorRepository,
+                              IPremioRepository premioRepository,
                               IImageService imageService,
                               IConfiguration configuration)
         {
             _sponsorRepository = sponsorRepository;
             _configuration = configuration;
             _imageService = imageService;
+            _premioRepository = premioRepository;
         }
         public void AddSponsor(CreateSponsorDto sponsorDto)
         {
@@ -76,7 +79,17 @@ namespace GreenPoints.Services
         {
             var sponsor = _sponsorRepository.GetById(id);
             sponsor.Activo = false;
-            _sponsorRepository.Update(sponsor);
+            var premiosCodigos = _premioRepository.GetPremioCodigosBySponsor(id);
+            var premios = premiosCodigos.Select(x => x.Premio).Distinct().ToList();
+
+            using (var scope = new TransactionScope())
+            {
+                _premioRepository.DisablePremioCodigos(premiosCodigos);
+                _premioRepository.DisablePremio(premios);
+                _sponsorRepository.Update(sponsor);
+                scope.Complete();
+            }
+                
         }
     }
 }
