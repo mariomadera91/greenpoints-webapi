@@ -130,8 +130,8 @@ namespace GreenPoints.Services
 
         public void Post(CreatePremioDto premioDto)
         {
-            byte[] bytes = Convert.FromBase64String(premioDto.Image.base64);
-            var imageFileName = Guid.NewGuid() + ".png";
+            byte[] bytes = (premioDto.Image != null) ? Convert.FromBase64String(premioDto.Image.base64) : null;
+            var imageFileName = (premioDto.Image != null) ? Guid.NewGuid() + ".png" : string.Empty;
             var path = $"{ _configuration.GetSection("imagePath").Value }\\premios\\{ imageFileName }";
 
             using (var scope = new TransactionScope())
@@ -170,12 +170,30 @@ namespace GreenPoints.Services
                     _premioRepository.CreatePremioCodigos(premioCodigos);
                 }
 
-
-                File.WriteAllBytes(path, bytes);
+                if(!string.IsNullOrEmpty(imageFileName))
+                {
+                    File.WriteAllBytes(path, bytes);
+                }
+                
                 scope.Complete();
             }
             
         }
 
+        public void Delete(int id)
+        {
+            var premio = _premioRepository.GetById(id);
+            var premioCodigos = _premioRepository.GetPremioCodigos(id);
+
+            using (var scope = new TransactionScope())
+            {
+                _premioRepository.DisablePremioCodigos(premioCodigos);
+
+                premio.Activo = false;
+
+                _premioRepository.Update(premio);
+                scope.Complete();
+            }
+        }
     }
 }

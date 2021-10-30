@@ -17,5 +17,7 @@ namespace GreenPoints.Services
         SocioPremioDto GetSocioPremio(int socioPremioId);
 
         void Post(CreatePremioDto premioDto);
+
+        void Delete(int id);
     }
 }

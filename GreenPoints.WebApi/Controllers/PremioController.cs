@@ -62,5 +62,12 @@ namespace GreenPoints.WebApi.Controllers
             _premioService.Post(model);
             return Ok();
         }
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            _premioService.Delete(id);
+            return Ok();
+        }
     }
 }
