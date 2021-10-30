@@ -55,6 +55,7 @@ namespace GreenPoints.Services
                 Id = premio.Id,
                 Name = premio.Nombre,
                 Description = premio.Descripcion,
+                SponsorId = premio.SponsorId,
                 Desde = premio.VigenciaDesde,
                 Hasta = premio.VigenciaHasta,
                 Puntos = premio.Puntos,
