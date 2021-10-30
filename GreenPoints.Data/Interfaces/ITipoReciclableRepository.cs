@@ -7,5 +7,7 @@ namespace GreenPoints.Data
     {
         List<TipoReciclable> Get();
         List<TipoReciclable> GetByPunto(int puntoId);
+        public void AddTipoReciclable(TipoReciclable tipoReciclable);
+
     }
 }

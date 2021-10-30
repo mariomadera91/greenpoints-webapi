@@ -1,50 +1,46 @@
 ﻿using GreenPoints.Domain;
-using System.Linq;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace GreenPoints.Data
 {
-    public class PlantaRepository : IPlantaRepository
+    public class SponsorRepository :ISponsorRepository
     {
-        public List<Planta> Search()
+        public void AddSponsor(Sponsor sponsor)
         {
             using (var _context = new GreenPointsContext())
             {
-                return _context.Plantas.Where(x => x.Activo).ToList();
-            }
-        }
-        public void AddPlanta(Planta planta)
-        {
-            using (var _context = new GreenPointsContext())
-            {
-                _context.Add(planta);
+                _context.Add(sponsor);
                 _context.SaveChanges();
             }
         }
-        public List<Planta> Get()
+        public List<Sponsor> Get()
         {
             using (var _context = new GreenPointsContext())
             {
-                return _context.Plantas.Include(x => x.Id)
+                return _context.Sponsors
                     .Where(x => x.Activo)
                     .OrderByDescending(x => x.Nombre)
                     .ToList();
             }
         }
-        public Planta GetById(int id)
+        public Sponsor GetById(int id)
         {
             using (var _context = new GreenPointsContext())
             {
-                return _context.Plantas.Where(x => x.Id == id).FirstOrDefault();
+                return _context.Sponsors.Where(x => x.Id == id).FirstOrDefault();
             }
         }
 
-        public void Update(Planta plantaDto)
+        public void Update(Sponsor sponsorDto)
         {
             using (var _context = new GreenPointsContext())
             {
-                _context.Update(plantaDto);
+                _context.Update(sponsorDto);
                 _context.SaveChanges();
             }
         }

@@ -25,5 +25,13 @@ namespace GreenPoints.Data
                         .Where(x => x.Punto.Id == puntoId ).Select(x => x.Tipo).ToList();
             }
         }
+        public void AddTipoReciclable(TipoReciclable tipoReciclable)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                _context.Add(tipoReciclable);
+                _context.SaveChanges();
+            }
+        }
     }
 }

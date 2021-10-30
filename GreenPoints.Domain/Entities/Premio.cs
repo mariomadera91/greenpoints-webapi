@@ -13,6 +13,6 @@ namespace GreenPoints.Domain
         public DateTime? Fecha { get; set; }
         public int SponsorId { get; set; }
         public string Observacion { get; set; }
-        public Sponsor Sponsor { get; set; }
+        public string Sponsor { get; set; }
     }
 }

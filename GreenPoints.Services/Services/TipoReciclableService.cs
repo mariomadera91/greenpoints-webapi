@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
+using GreenPoints.Domain;
+
 
 namespace GreenPoints.Services
 {
@@ -50,6 +52,17 @@ namespace GreenPoints.Services
         public ImageDto GetImage(string name)
         {
             return _imageService.GetImage(name, "TiposReciclables");
+        }
+
+        public void AddTipoReciclable(CreateTipoReciclableDto tipoReciclableDto)
+        {
+            var tipo = new TipoReciclable()
+            {
+                Nombre = tipoReciclableDto.Nombre,
+                PuntosKg = tipoReciclableDto.Points,
+                Activo = true
+            };
+            _tipoReciclableRepository.AddTipoReciclable(tipo);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using GreenPoints.Services;
+using GreenPoints.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,6 +38,19 @@ namespace GreenPoints.WebApi.Controllers
         {
             var imageDto = _tipoReciclableService.GetImage(name);
             return File(imageDto.Image, imageDto.ContentType);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult PostTipoReciclable([FromBody] TipoReciclableModel tipoReciclableModel)
+        {
+            _tipoReciclableService.AddTipoReciclable(new CreateTipoReciclableDto()
+            {
+                Nombre = tipoReciclableModel.Nombre,
+                Points = tipoReciclableModel.Points
+            });
+
+            return Ok();
         }
     }
 }
