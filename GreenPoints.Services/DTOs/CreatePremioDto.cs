@@ -5,7 +5,7 @@ namespace GreenPoints.Services
     public class CreatePremioDto
     {
         public string Nombre { get; set; }
-        public string Sponsor { get; set; }
+        public int SponsorId { get; set; }
         public string FechaInicio { get; set; }
         public string FechaVto { get; set; }
         public string Descripcion { get; set; }

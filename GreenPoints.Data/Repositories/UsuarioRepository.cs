@@ -11,7 +11,7 @@ namespace GreenPoints.Data
             {
                 _context.Add(usuario);
                 _context.SaveChanges();
-                return  _context.Usuarios.Where(x => x.UserName == usuario.UserName).First();
+                return  _context.Usuarios.Where(x => x.UserName == usuario.UserName && x.Activo).First();
             }
         }
 
@@ -20,6 +20,23 @@ namespace GreenPoints.Data
             using (var _context = new GreenPointsContext())
             {
                 return _context.Usuarios.Where(x => x.UserName == userName && x.Password == password).FirstOrDefault();
+            }
+        }
+
+        public Usuario GetByEmail(string email)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                return _context.Usuarios.Where(x => x.UserName == email && x.Activo).FirstOrDefault();
+            }
+        }
+
+        public void Update(Usuario usuario)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                _context.Usuarios.Update(usuario);
+                _context.SaveChanges();
             }
         }
     }

@@ -10,8 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace GreenPoints.Services.Services
 {
@@ -86,18 +88,45 @@ namespace GreenPoints.Services.Services
 
         public async Task Reset(string email)
         {
-            var client = new MailjetClient(_configuration.GetSection("Mail:apiKey").Value, _configuration.GetSection("Mail:apiSecret").Value);
+            var usuario = _usuarioRepository.GetByEmail(email);
 
-            var emailToSend = new TransactionalEmailBuilder()
-                   .WithFrom(new SendContact("mmadera@clarika.com.ar"))
-                   .WithSubject("Test subject")
-                   .WithHtmlPart("<h1>Header</h1>")
-                   .WithTo(new SendContact(email))
-                   .Build();
+            if(usuario != null)
+            {
+                var client = new MailjetClient(_configuration.GetSection("Mail:apiKey").Value, _configuration.GetSection("Mail:apiSecret").Value);
 
-            // invoke API to send email
-            var response = await client.SendTransactionalEmailAsync(emailToSend);
+                var newPassword = Guid.NewGuid();
+
+                var emailToSend = new TransactionalEmailBuilder()
+                       .WithFrom(new SendContact(_configuration.GetSection("Mail:from").Value))
+                       .WithSubject("Green Points - Nueva Contraseña")
+                       .WithHtmlPart($"<h2>Restablecimiento de contraseña</h2><p>Tu nueva contraseña es: { newPassword }</p><p>No respondas este mail automático</p>.")
+                       .WithTo(new SendContact(email))
+                       .Build();
+
+                using (var scope = new TransactionScope())
+                {
+                    usuario.Password = GetSHA256(newPassword.ToString());
+                    _usuarioRepository.Update(usuario);
+
+                    // invoke API to send email
+                    var response = await client.SendTransactionalEmailAsync(emailToSend);
+
+                    scope.Complete();
+                }
+                    
+            }
         }
 
+        private string GetSHA256(string str)
+        {
+            var sha256 = SHA256Managed.Create();
+            ASCIIEncoding encoding = new ASCIIEncoding();
+            byte[] stream = null;
+            StringBuilder sb = new StringBuilder();
+            stream = sha256.ComputeHash(encoding.GetBytes(str));
+            for (int i = 0; i < stream.Length; i++) sb.AppendFormat("{0:x2}", stream[i]);
+            return sb.ToString();
+
+        }
     }
 }

@@ -13,15 +13,18 @@ namespace GreenPoints.Services
     {
         private IPremioRepository _premioRepository;
         private IImageService _imageService;
+        private ISponsorRepository _sponsorRepository;
         private IConfiguration _configuration;
 
         public PremioService(
             IPremioRepository premioRepository,
             IImageService imageService,
+            ISponsorRepository sponsorRepository,
             IConfiguration configuration)
         {
             _premioRepository = premioRepository;
             _imageService = imageService;
+            _sponsorRepository = sponsorRepository;
             _configuration = configuration;
         }
 
@@ -133,6 +136,7 @@ namespace GreenPoints.Services
             byte[] bytes = (premioDto.Image != null) ? Convert.FromBase64String(premioDto.Image.base64) : null;
             var imageFileName = (premioDto.Image != null) ? Guid.NewGuid() + ".png" : string.Empty;
             var path = $"{ _configuration.GetSection("imagePath").Value }\\premios\\{ imageFileName }";
+            var sponsor = _sponsorRepository.GetById(premioDto.SponsorId);
 
             using (var scope = new TransactionScope())
             {
@@ -148,7 +152,7 @@ namespace GreenPoints.Services
                 premio.VigenciaDesde = DateTime.ParseExact(premioDto.FechaInicio, "dd-MM-yyyy",null);
                 premio.VigenciaHasta = !string.IsNullOrEmpty(premioDto.FechaVto) ? DateTime.ParseExact(premioDto.FechaVto, "dd-MM-yyyy", null) : null;
                 premio.SponsorId = 2;
-                premio.Imagen = imageFileName;
+                premio.Imagen = !string.IsNullOrEmpty(imageFileName) ? imageFileName : sponsor.Imagen;
                 premio.Puntos = premioDto.Puntos;
                 premio.Stock = premioDto.Codigos.Count;
 
@@ -198,6 +202,8 @@ namespace GreenPoints.Services
             var imageFileName = (premioDto.ImageData != null) ? Guid.NewGuid() + ".png" : string.Empty;
             var path = $"{ _configuration.GetSection("imagePath").Value }\\premios\\";
 
+            premio.Imagen = !string.IsNullOrEmpty(imageFileName) ? imageFileName : premio.Imagen;
+
             using (var scope = new TransactionScope())
             {
                 var premioCodigosToAdd = premioDto.Codigos.Where(x => !premioCodigos.Any(y => y.Codigo == x))
@@ -218,7 +224,6 @@ namespace GreenPoints.Services
                 if (!string.IsNullOrEmpty(imageFileName))
                 {
                     File.Delete(path + premio.Imagen);
-                    premio.Imagen = imageFileName;
                     File.WriteAllBytes(path + imageFileName, bytes);
                 }
 

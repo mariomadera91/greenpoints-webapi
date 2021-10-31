@@ -21,12 +21,14 @@ namespace GreenPoints.WebApi.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult PostSponsor([FromBody] SponsorModel sponsorModel)
+        public ActionResult PostSponsor([FromBody] CreateSponsorDto sponsorModel)
         {
-            _sponsorService.AddSponsor(new CreateSponsorDto()
+            if(sponsorModel == null || sponsorModel.Image == null || string.IsNullOrEmpty(sponsorModel.Nombre))
             {
-                Nombre = sponsorModel.Nombre
-            }) ;
+                return BadRequest("Datos incorrectos");
+            }
+
+            _sponsorService.AddSponsor(sponsorModel);
 
             return Ok();
         }

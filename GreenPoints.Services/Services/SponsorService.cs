@@ -32,7 +32,8 @@ namespace GreenPoints.Services
         {
             byte[] bytes = (sponsorDto.Image != null) ? Convert.FromBase64String(sponsorDto.Image.base64) : null;
             var imageFileName = (sponsorDto.Image != null) ? Guid.NewGuid() + ".png" : string.Empty;
-            var path = $"{ _configuration.GetSection("imagePath").Value }\\sponsors\\{ imageFileName }";
+            var pathSponsor = $"{ _configuration.GetSection("imagePath").Value }\\sponsors\\{ imageFileName }";
+            var pathPremio = $"{ _configuration.GetSection("imagePath").Value }\\premios\\{ imageFileName }";
 
             var spon = new Sponsor()
             {
@@ -47,7 +48,8 @@ namespace GreenPoints.Services
 
                 if (!string.IsNullOrEmpty(imageFileName))
                 {
-                    File.WriteAllBytes(path, bytes);
+                    File.WriteAllBytes(pathSponsor, bytes);
+                    File.WriteAllBytes(pathPremio, bytes);
                 }
 
                 scope.Complete();

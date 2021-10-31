@@ -4,5 +4,7 @@
     {
         Usuario GetUsuario(string userName, string password);
         Usuario AddUsuario(Usuario usuario);
+        Usuario GetByEmail(string email);
+        void Update(Usuario usuario);
     }
 }
