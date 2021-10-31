@@ -31,7 +31,7 @@ namespace GreenPoints.WebApi.Controllers
         {
             _puntoReciclajeService.Create(new CreatePuntoReciclajeDto()
             {
-                UserName = puntoModel.Username,
+                UserName = puntoModel.Email,
                 CustomerName = puntoModel.CustomerName,
                 Document = puntoModel.Document,
                 Latitud = puntoModel.Latitud,

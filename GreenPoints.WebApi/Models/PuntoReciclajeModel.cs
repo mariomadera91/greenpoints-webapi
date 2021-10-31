@@ -4,7 +4,7 @@ namespace GreenPoints.WebApi.Models
 {
     public class PuntoReciclajeModel
     {
-        public string Username { get; set; }
+        public string Email { get; set; }
         public string CustomerName { get; set; }
         public string Document { get; set; }
         public decimal Longitud { get; set; }
