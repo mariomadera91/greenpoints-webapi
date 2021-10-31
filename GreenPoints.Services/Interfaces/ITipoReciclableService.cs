@@ -8,7 +8,7 @@ namespace GreenPoints.Services
 
         List<TipoReciclableDto> GetByPunto(int puntoId, bool onlyOpenedLote);
 
-        ImageDto GetImage(string name);
+        ImageUrlDto GetImage(string name);
 
         void AddTipoReciclable(CreateTipoReciclableDto createTipoReciclableDto);
     }

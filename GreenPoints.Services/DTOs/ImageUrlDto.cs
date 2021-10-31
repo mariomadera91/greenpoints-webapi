@@ -2,7 +2,7 @@
 
 namespace GreenPoints.Services
 {
-    public class ImageDto
+    public class ImageUrlDto
     {
         public FileStream Image { get; set; }
         public string ContentType { get; set; }

@@ -8,7 +8,7 @@ namespace GreenPoints.Services
 
         PremioDto GetDetailById(int id, bool admin);
 
-        ImageDto GetImage(string name);
+        ImageUrlDto GetImage(string name);
 
         List<PremioListDto> GetTop();
 
@@ -17,6 +17,8 @@ namespace GreenPoints.Services
         SocioPremioDto GetSocioPremio(int socioPremioId);
 
         void Post(CreatePremioDto premioDto);
+
+        void Put(PremioDto premioDto);
 
         void Delete(int id);
     }

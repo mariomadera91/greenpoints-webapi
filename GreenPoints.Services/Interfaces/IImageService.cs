@@ -2,6 +2,6 @@
 {
     public interface IImageService
     {
-        ImageDto GetImage(string name, string entityName);
+        ImageUrlDto GetImage(string name, string entityName);
     }
 }

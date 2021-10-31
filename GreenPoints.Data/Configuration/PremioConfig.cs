@@ -12,7 +12,7 @@ namespace GreenPoints.Data
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnName("premio_id");
             builder.Property(x => x.VigenciaDesde).HasColumnName("vigencia_desde");
-            builder.Property(x => x.VigenciaHasta).HasColumnName("vigencia_hasta");
+            builder.Property(x => x.VigenciaHasta).HasColumnName("vigencia_hasta").IsRequired(false);
             builder.Property(x => x.SponsorId).HasColumnName("sponsor_id");
             builder.Property(x => x.Observacion).HasColumnName("observacion");
         }

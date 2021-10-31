@@ -63,6 +63,13 @@ namespace GreenPoints.WebApi.Controllers
             return Ok();
         }
 
+        [HttpPut]
+        public ActionResult Put(PremioDto model)
+        {
+            _premioService.Put(model);
+            return Ok();
+        }
+
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {

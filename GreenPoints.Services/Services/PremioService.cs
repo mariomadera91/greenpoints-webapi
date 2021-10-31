@@ -65,7 +65,7 @@ namespace GreenPoints.Services
             };
         }
 
-        public ImageDto GetImage(string name)
+        public ImageUrlDto GetImage(string name)
         {
             return _imageService.GetImage(name, "Premios");
         }
@@ -180,6 +180,53 @@ namespace GreenPoints.Services
             
         }
 
+        public void Put(PremioDto premioDto)
+        {
+            var premio = _premioRepository.GetById(premioDto.Id);
+            var premioCodigos = _premioRepository.GetPremioCodigos(premioDto.Id);
+
+            premio.Nombre = premioDto.Name;
+            premio.Observacion = premioDto.Observacion;
+            premio.Descripcion = premioDto.Description;
+            premio.VigenciaDesde = premioDto.Desde;
+            premio.VigenciaHasta = premioDto.Hasta;
+            premio.SponsorId = premioDto.SponsorId;
+            premio.Stock = premioDto.Codigos.Count();
+            premio.Puntos = premioDto.Puntos;
+
+            byte[] bytes = (premioDto.ImageData != null) ? Convert.FromBase64String(premioDto.ImageData.base64) : null;
+            var imageFileName = (premioDto.ImageData != null) ? Guid.NewGuid() + ".png" : string.Empty;
+            var path = $"{ _configuration.GetSection("imagePath").Value }\\premios\\";
+
+            using (var scope = new TransactionScope())
+            {
+                var premioCodigosToAdd = premioDto.Codigos.Where(x => !premioCodigos.Any(y => y.Codigo == x))
+                                            .Select(x => new PremioCodigo()
+                                            {
+                                                Activo = true,
+                                                Codigo = x,
+                                                PremioId = premioDto.Id
+                                            }).ToList();
+
+                var premioCodigosToDelete = premioCodigos.Where(x => !premioDto.Codigos.Any(y => y == x.Codigo)).ToList();
+
+
+                _premioRepository.CreatePremioCodigos(premioCodigosToAdd);
+                _premioRepository.DisablePremioCodigos(premioCodigosToDelete);
+                _premioRepository.Update(premio);
+
+                if (!string.IsNullOrEmpty(imageFileName))
+                {
+                    File.Delete(path + premio.Imagen);
+                    premio.Imagen = imageFileName;
+                    File.WriteAllBytes(path + imageFileName, bytes);
+                }
+
+                scope.Complete();
+            }
+            
+        }
+
         public void Delete(int id)
         {
             var premio = _premioRepository.GetById(id);
@@ -195,5 +242,6 @@ namespace GreenPoints.Services
                 scope.Complete();
             }
         }
+
     }
 }

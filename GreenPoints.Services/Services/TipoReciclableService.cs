@@ -51,7 +51,7 @@ namespace GreenPoints.Services
             }).OrderBy(x => x.HasActiveLote).ToList();
         }
 
-        public ImageDto GetImage(string name)
+        public ImageUrlDto GetImage(string name)
         {
             return _imageService.GetImage(name, "TiposReciclables");
         }

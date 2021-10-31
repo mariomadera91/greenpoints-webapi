@@ -69,7 +69,7 @@ namespace GreenPoints.Services
             };
         }
 
-        public ImageDto GetImage(string name)
+        public ImageUrlDto GetImage(string name)
         {
             return _imageService.GetImage(name, "Plantas");
         }
