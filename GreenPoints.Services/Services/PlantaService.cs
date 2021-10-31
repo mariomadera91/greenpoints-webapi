@@ -36,7 +36,8 @@ namespace GreenPoints.Services
                 Nombre = plantaDto.Nombre,
                 FechaCrea = DateTime.Now,
                 Direccion = plantaDto.Direccion,
-                Descripcion = plantaDto.Descripcion
+                Descripcion = plantaDto.Descripcion,
+                Activo = true
             };
             _plantaRepository.AddPlanta(plan);
         }
@@ -51,6 +52,7 @@ namespace GreenPoints.Services
                 Nombre = x.Nombre,
                 Direccion = x.Direccion,
                 Descripcion = x.Descripcion,
+                Activo = x.Activo,
                 Imagen = $"{ _configuration.GetSection("siteUrl").Value }/planta/image?name={ x.Imagen }"
             }).ToList();
         }
@@ -65,6 +67,7 @@ namespace GreenPoints.Services
                 Nombre = planta.Nombre,
                 Direccion = planta.Direccion,
                 Descripcion = planta.Descripcion,
+                Activo = planta.Activo,
                 Imagen = $"{ _configuration.GetSection("siteUrl").Value }/planta/image?name={ planta.Imagen }"
             };
         }
@@ -83,6 +86,7 @@ namespace GreenPoints.Services
                 Nombre = plantaDto.Nombre,
                 Direccion = plantaDto.Direccion,
                 Descripcion = plantaDto.Descripcion,
+                Activo = true,
                 Imagen = plantaDto.Imagen,
                 FechaCrea = planta.FechaCrea
             };

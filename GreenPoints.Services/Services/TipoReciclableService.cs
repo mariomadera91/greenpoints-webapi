@@ -31,6 +31,7 @@ namespace GreenPoints.Services
                 Id = x.Id,
                 Nombre = x.Nombre,
                 Points = x.PuntosKg,
+                Activo = x.Activo,
                 Imagen = $"{ _configuration.GetSection("siteUrl").Value }/tipo-reciclable/image?name={ x.Imagen }"
             }).ToList();
         }
@@ -46,6 +47,7 @@ namespace GreenPoints.Services
                 Id = x.Id,
                 Nombre = x.Nombre,
                 Points = x.PuntosKg,
+                Activo = x.Activo,
                 Imagen = $"{ _configuration.GetSection("siteUrl").Value }/tipo-reciclable/image?name={ x.Imagen }",
                 HasActiveLote = lotes.Any(y => y.TipoId == x.Id)
             }).OrderBy(x => x.HasActiveLote).ToList();
@@ -65,6 +67,39 @@ namespace GreenPoints.Services
                 Activo = true
             };
             _tipoReciclableRepository.AddTipoReciclable(tipo);
+        }
+
+        public TipoReciclableDto GetDetailById(int id)
+        {
+            var tipo = _tipoReciclableRepository.GetById(id);
+
+            return new TipoReciclableDto()
+            {
+                Id = tipo.Id,
+                Nombre = tipo.Nombre,
+                Points = tipo.PuntosKg,
+                Activo = tipo.Activo,
+                Imagen = $"{ _configuration.GetSection("siteUrl").Value }/tipo-reciclable/image?name={ tipo.Imagen }"
+            };
+        }
+        public void Update(TipoReciclableDto tipoReciclableDto)
+        {
+            var tipo = new TipoReciclable()
+            {
+                Id = tipoReciclableDto.Id,
+                Nombre = tipoReciclableDto.Nombre,
+                PuntosKg = tipoReciclableDto.Points,
+                Activo = true,
+                Imagen = tipoReciclableDto.Imagen
+            };
+            _tipoReciclableRepository.Update(tipo);
+        }
+
+        public void Delete(int id)
+        {
+            var tipo = _tipoReciclableRepository.GetById(id);
+            tipo.Activo = false;
+            _tipoReciclableRepository.Update(tipo);
         }
     }
 }

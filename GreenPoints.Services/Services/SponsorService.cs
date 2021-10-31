@@ -62,6 +62,7 @@ namespace GreenPoints.Services
             {
                 Id = x.Id,
                 Nombre = x.Nombre,
+                Activo = x.Activo,
                 Imagen = $"{ _configuration.GetSection("siteUrl").Value }/sponsor/image?name={ x.Imagen }"
             }).ToList();
         }
@@ -74,6 +75,7 @@ namespace GreenPoints.Services
             {
                 Id = sponsor.Id,
                 Nombre = sponsor.Nombre,
+                Activo = sponsor.Activo,
                 Imagen = $"{ _configuration.GetSection("siteUrl").Value }/sponsor/image?name={ sponsor.Imagen }"
             };
         }
@@ -89,7 +91,7 @@ namespace GreenPoints.Services
             var spon = new Sponsor()
             {   Id = sponsordto.Id,
                 Nombre = sponsordto.Nombre,
-                Activo = sponsordto.Activo,
+                Activo = true,
                 Imagen = sponsordto.Imagen,
             };
             _sponsorRepository.Update(spon);

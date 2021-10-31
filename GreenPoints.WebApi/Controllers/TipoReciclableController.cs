@@ -33,6 +33,22 @@ namespace GreenPoints.WebApi.Controllers
         }
 
         [HttpGet]
+        [Route("tipo/{id:int}")]
+        public ActionResult GetById(int id)
+        {
+            var tipo = _tipoReciclableService.GetDetailById(id);
+
+            if (tipo == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(tipo);
+            }
+        }
+
+        [HttpGet]
         [Route("image")]
         public IActionResult GetTipoReciclableImage(string name)
         {
@@ -51,6 +67,22 @@ namespace GreenPoints.WebApi.Controllers
             });
 
             return Ok();
+        }
+
+        [AllowAnonymous]
+        [HttpPut]
+        public ActionResult Update([FromBody] TipoReciclableDto tipoDto)
+        {
+            _tipoReciclableService.Update(tipoDto);
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            _tipoReciclableService.Delete(id);
+            return Ok();
+
         }
     }
 }

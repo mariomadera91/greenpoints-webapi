@@ -33,5 +33,20 @@ namespace GreenPoints.Data
                 _context.SaveChanges();
             }
         }
+        public void Update(TipoReciclable tipoReciclableDto)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                _context.Update(tipoReciclableDto);
+                _context.SaveChanges();
+            }
+        }
+        public TipoReciclable GetById(int id)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                return _context.TiposReciclables.Where(x => x.Id == id).FirstOrDefault();
+            }
+        }
     }
 }
