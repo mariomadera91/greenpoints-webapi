@@ -94,7 +94,7 @@ namespace GreenPoints.Services.Services
             {
                 var client = new MailjetClient(_configuration.GetSection("Mail:apiKey").Value, _configuration.GetSection("Mail:apiSecret").Value);
 
-                var newPassword = Guid.NewGuid();
+                var newPassword = Guid.NewGuid().ToString().Replace("-", string.Empty).Substring(0,12);
 
                 var emailToSend = new TransactionalEmailBuilder()
                        .WithFrom(new SendContact(_configuration.GetSection("Mail:from").Value))
@@ -105,11 +105,13 @@ namespace GreenPoints.Services.Services
 
                 using (var scope = new TransactionScope())
                 {
-                    usuario.Password = GetSHA256(newPassword.ToString());
+                    usuario.Password = GetSHA256(newPassword);
+                    usuario.LastPasswordReset = DateTime.Now;
+
                     _usuarioRepository.Update(usuario);
 
                     // invoke API to send email
-                    var response = await client.SendTransactionalEmailAsync(emailToSend);
+                    var response = client.SendTransactionalEmailAsync(emailToSend).GetAwaiter().GetResult();
 
                     scope.Complete();
                 }

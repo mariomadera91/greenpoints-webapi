@@ -40,9 +40,14 @@ namespace GreenPoints.WebApi.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("reset")]
-        public async Task<ActionResult> Reset(string email)
+        public async Task<ActionResult> Reset([FromBody] ResetModel model)
         {
-            await _usuarioService.Reset(email);
+            if(model == null || string.IsNullOrEmpty(model.Email))
+            {
+                return BadRequest();
+            }
+
+            await _usuarioService.Reset(model.Email);
             return Ok();
         }
 
