@@ -1,11 +1,12 @@
 ﻿using GreenPoints.Data;
 using GreenPoints.Domain;
-using System;
 using GreenPoints.Services.Interfaces;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using System.Transactions;
+using System;
+using System.IO;
 
 namespace GreenPoints.Services
 {
@@ -29,12 +30,28 @@ namespace GreenPoints.Services
 
         public void AddSponsor(CreateSponsorDto sponsorDto)
         {
+            byte[] bytes = (sponsorDto.Image != null) ? Convert.FromBase64String(sponsorDto.Image.base64) : null;
+            var imageFileName = (sponsorDto.Image != null) ? Guid.NewGuid() + ".png" : string.Empty;
+            var path = $"{ _configuration.GetSection("imagePath").Value }\\sponsors\\{ imageFileName }";
+
             var spon = new Sponsor()
             {
                 Nombre = sponsorDto.Nombre,
-                Activo = true
+                Activo = true,
+                Imagen = imageFileName
             };
-            _sponsorRepository.AddSponsor(spon);
+
+            using (var scope = new TransactionScope())
+            {
+                _sponsorRepository.AddSponsor(spon);
+
+                if (!string.IsNullOrEmpty(imageFileName))
+                {
+                    File.WriteAllBytes(path, bytes);
+                }
+
+                scope.Complete();
+            }
         }
 
         public List<SponsorDto> Get()
