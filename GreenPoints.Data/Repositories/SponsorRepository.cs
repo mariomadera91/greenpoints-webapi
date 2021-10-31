@@ -23,7 +23,6 @@ namespace GreenPoints.Data
             using (var _context = new GreenPointsContext())
             {
                 return _context.Sponsors
-                    .Where(x => x.Activo)
                     .OrderByDescending(x => x.Nombre)
                     .ToList();
             }

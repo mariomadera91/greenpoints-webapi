@@ -11,7 +11,8 @@ namespace GreenPoints.Data
         {
             using (var _context = new GreenPointsContext())
             {
-                return _context.TiposReciclables.Where(x => x.Activo).ToList();
+                return _context.TiposReciclables
+                    .ToList();
             }
         }
 

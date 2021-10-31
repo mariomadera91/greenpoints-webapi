@@ -26,8 +26,7 @@ namespace GreenPoints.Data
         {
             using (var _context = new GreenPointsContext())
             {
-                return _context.Plantas.Include(x => x.Id)
-                    .Where(x => x.Activo)
+                return _context.Plantas
                     .OrderByDescending(x => x.Nombre)
                     .ToList();
             }
