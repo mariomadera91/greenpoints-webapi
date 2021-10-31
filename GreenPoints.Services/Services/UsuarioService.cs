@@ -1,6 +1,9 @@
 ﻿using GreenPoints.Data;
 using GreenPoints.Domain;
 using GreenPoints.Services.Interfaces;
+using Mailjet.Client;
+using Mailjet.Client.Resources;
+using Mailjet.Client.TransactionalEmails;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -8,6 +11,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GreenPoints.Services.Services
 {
@@ -79,5 +83,21 @@ namespace GreenPoints.Services.Services
                 Token = jwt_token
             };
         }
+
+        public async Task Reset(string email)
+        {
+            var client = new MailjetClient(_configuration.GetSection("Mail:apiKey").Value, _configuration.GetSection("Mail:apiSecret").Value);
+
+            var emailToSend = new TransactionalEmailBuilder()
+                   .WithFrom(new SendContact("mmadera@clarika.com.ar"))
+                   .WithSubject("Test subject")
+                   .WithHtmlPart("<h1>Header</h1>")
+                   .WithTo(new SendContact(email))
+                   .Build();
+
+            // invoke API to send email
+            var response = await client.SendTransactionalEmailAsync(emailToSend);
+        }
+
     }
 }

@@ -2,6 +2,8 @@
 using GreenPoints.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+
 namespace GreenPoints.WebApi.Controllers
 {
     [Route("usuario")]
@@ -18,7 +20,7 @@ namespace GreenPoints.WebApi.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("login")]
-        public ActionResult Post([FromBody] LoginModel loginModel)
+        public ActionResult Login([FromBody] LoginModel loginModel)
         {
             if (string.IsNullOrEmpty(loginModel.User) || string.IsNullOrEmpty(loginModel.Password))
             {
@@ -33,6 +35,15 @@ namespace GreenPoints.WebApi.Controllers
             }
 
             return Ok(usuario);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("reset")]
+        public async Task<ActionResult> Reset(string email)
+        {
+            await _usuarioService.Reset(email);
+            return Ok();
         }
 
     }        
