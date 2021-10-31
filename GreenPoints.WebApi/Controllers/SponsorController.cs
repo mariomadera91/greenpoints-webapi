@@ -18,6 +18,7 @@ namespace GreenPoints.WebApi.Controllers
         {
             _sponsorService = sponsorService;
         }
+
         [AllowAnonymous]
         [HttpPost]
         public ActionResult PostSponsor([FromBody] SponsorModel sponsorModel)
@@ -29,6 +30,7 @@ namespace GreenPoints.WebApi.Controllers
 
             return Ok();
         }
+
         [HttpGet]
         public ActionResult<List<SponsorDto>> Get()
         {
@@ -66,6 +68,14 @@ namespace GreenPoints.WebApi.Controllers
             _sponsorService.Delete(id);
             return Ok();
 
+        }
+
+        [HttpGet]
+        [Route("image")]
+        public IActionResult GetSponsorImage(string name)
+        {
+            var imageDto = _sponsorService.GetImage(name);
+            return File(imageDto.Image, imageDto.ContentType);
         }
     }
 }

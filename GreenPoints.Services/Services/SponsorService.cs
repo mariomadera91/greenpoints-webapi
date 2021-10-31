@@ -15,6 +15,7 @@ namespace GreenPoints.Services
         private IImageService _imageService;
         private IConfiguration _configuration;
         private IPremioRepository _premioRepository;
+
         public SponsorService(ISponsorRepository sponsorRepository,
                               IPremioRepository premioRepository,
                               IImageService imageService,
@@ -25,6 +26,7 @@ namespace GreenPoints.Services
             _imageService = imageService;
             _premioRepository = premioRepository;
         }
+
         public void AddSponsor(CreateSponsorDto sponsorDto)
         {
             var spon = new Sponsor()
@@ -63,6 +65,7 @@ namespace GreenPoints.Services
         {
             return _imageService.GetImage(name, "Sponsors");
         }
+
         public void Update(SponsorDto sponsordto)
         {
 
