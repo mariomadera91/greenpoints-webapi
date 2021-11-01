@@ -27,7 +27,7 @@ namespace GreenPoints.Data
             using (var _context = new GreenPointsContext())
             {
                 return _context.Plantas
-                    .OrderByDescending(x => x.Nombre)
+                    .OrderByDescending(x => x.FechaCrea)
                     .ToList();
             }
         }
