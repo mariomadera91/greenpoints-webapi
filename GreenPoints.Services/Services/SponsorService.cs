@@ -89,15 +89,32 @@ namespace GreenPoints.Services
 
         public void Update(SponsorDto sponsordto)
         {
+            byte[] bytes = (sponsordto.ImageData != null) ? Convert.FromBase64String(sponsordto.ImageData.base64) : null;
+            var imageFileName = (sponsordto.ImageData != null) ? Guid.NewGuid() + ".png" : string.Empty;
+            var path = $"{ _configuration.GetSection("imagePath").Value }\\sponsors\\";
 
-            var spon = new Sponsor()
-            {   Id = sponsordto.Id,
-                Nombre = sponsordto.Nombre,
-                Activo = true,
-                Imagen = sponsordto.Imagen,
-            };
-            _sponsorRepository.Update(spon);
+            var sponsor = _sponsorRepository.GetById(sponsordto.Id);
 
+            using (var scope = new TransactionScope())
+            {
+                var spon = new Sponsor()
+                {
+                    Id = sponsordto.Id,
+                    Nombre = sponsordto.Nombre,
+                    Activo = true,
+                    Imagen = !string.IsNullOrEmpty(imageFileName) ? imageFileName : sponsor.Imagen,
+                };
+
+                if (!string.IsNullOrEmpty(imageFileName))
+                {
+                    File.Delete(path + spon.Imagen);
+                    File.WriteAllBytes(path + imageFileName, bytes);
+                }
+
+                _sponsorRepository.Update(spon);
+
+                scope.Complete();
+            }
         }
         public void Delete(int id)
         {
