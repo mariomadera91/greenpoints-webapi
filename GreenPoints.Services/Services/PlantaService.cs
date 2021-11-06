@@ -54,7 +54,7 @@ namespace GreenPoints.Services
                 Descripcion = x.Descripcion,
                 Activo = x.Activo,
                 Imagen = $"{ _configuration.GetSection("siteUrl").Value }/planta/image?name={ x.Imagen }"
-            }).ToList();
+            }).OrderByDescending(x => x.Id).ToList();
         }
 
         public PlantaDto GetDetailById(int id)

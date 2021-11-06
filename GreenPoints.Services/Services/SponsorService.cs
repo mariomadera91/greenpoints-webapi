@@ -66,7 +66,7 @@ namespace GreenPoints.Services
                 Nombre = x.Nombre,
                 Activo = x.Activo,
                 Imagen = $"{ _configuration.GetSection("siteUrl").Value }/sponsor/image?name={ x.Imagen }"
-            }).ToList();
+            }).OrderByDescending(x => x.Id).ToList();
         }
 
         public SponsorDto GetDetailById(int id)
