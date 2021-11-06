@@ -10,10 +10,13 @@ namespace GreenPoints.WebApi.Controllers
     public class PuntoReciclajeController : Controller
     {
         private readonly IPuntoReciclajeService _puntoReciclajeService;
-
-        public PuntoReciclajeController(IPuntoReciclajeService puntoReciclajeService)
+        private readonly ITipoReciclableService _tipoReciclableService;
+        public PuntoReciclajeController(
+            IPuntoReciclajeService puntoReciclajeService,
+            ITipoReciclableService tipoReciclableService)
         {
             _puntoReciclajeService = puntoReciclajeService;
+            _tipoReciclableService = tipoReciclableService;
         }
 
         [AllowAnonymous]
@@ -23,7 +26,6 @@ namespace GreenPoints.WebApi.Controllers
             var puntos = _puntoReciclajeService.Get(tipoId);
             return Ok(puntos);
         }
-
 
         [AllowAnonymous]
         [HttpPost]
@@ -42,6 +44,16 @@ namespace GreenPoints.WebApi.Controllers
             });
 
             return Ok();
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("tipo-reciclables")]
+        public ActionResult GetTipoReciclables([FromQuery] int puntoId, [FromQuery] bool onlyOpenedLote = true)
+        {
+            var tipoReciclables = _tipoReciclableService.GetByPunto(puntoId, onlyOpenedLote);
+
+            return Ok(tipoReciclables);
         }
     }
 }

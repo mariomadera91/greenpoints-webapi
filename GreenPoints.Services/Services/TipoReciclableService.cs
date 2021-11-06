@@ -3,7 +3,9 @@ using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using GreenPoints.Domain;
-
+using System;
+using System.Transactions;
+using System.IO;
 
 namespace GreenPoints.Services
 {
@@ -36,6 +38,20 @@ namespace GreenPoints.Services
             }).ToList();
         }
 
+        public TipoReciclableDto GetById(int id)
+        {
+            var tipoReciclable = _tipoReciclableRepository.GetById(id);
+            
+            return new TipoReciclableDto()
+            {
+                Id = tipoReciclable.Id,
+                Nombre = tipoReciclable.Nombre,
+                Points = tipoReciclable.PuntosKg,
+                Activo = tipoReciclable.Activo,
+                Imagen = $"{ _configuration.GetSection("siteUrl").Value }/tipo-reciclable/image?name={ tipoReciclable.Imagen }"
+            };
+        }
+
         public List<TipoReciclableDto> GetByPunto(int puntoId, bool onlyOpenedLote)
         {
             var lotes = _loteRepository.GetActiveByPunto(puntoId);
@@ -60,13 +76,29 @@ namespace GreenPoints.Services
 
         public void AddTipoReciclable(CreateTipoReciclableDto tipoReciclableDto)
         {
+            byte[] bytes = (tipoReciclableDto.Image != null) ? Convert.FromBase64String(tipoReciclableDto.Image.base64) : null;
+            var imageFileName = (tipoReciclableDto.Image != null) ? Guid.NewGuid() + ".png" : string.Empty;
+            var imagePath = $"{ _configuration.GetSection("imagePath").Value }\\TiposReciclables\\{ imageFileName }";
+
             var tipo = new TipoReciclable()
             {
                 Nombre = tipoReciclableDto.Nombre,
                 PuntosKg = tipoReciclableDto.Points,
-                Activo = true
+                Activo = true,
+                Imagen = imageFileName
             };
-            _tipoReciclableRepository.AddTipoReciclable(tipo);
+
+            using (var scope = new TransactionScope())
+            {
+                _tipoReciclableRepository.AddTipoReciclable(tipo);
+
+                if (!string.IsNullOrEmpty(imageFileName))
+                {
+                    File.WriteAllBytes(imagePath, bytes);
+                }
+
+                scope.Complete();
+            }
         }
 
         public TipoReciclableDto GetDetailById(int id)
@@ -84,15 +116,32 @@ namespace GreenPoints.Services
         }
         public void Update(TipoReciclableDto tipoReciclableDto)
         {
-            var tipo = new TipoReciclable()
+            byte[] bytes = (tipoReciclableDto.ImageData != null) ? Convert.FromBase64String(tipoReciclableDto.ImageData.base64) : null;
+            var imageFileName = (tipoReciclableDto.ImageData != null) ? Guid.NewGuid() + ".png" : string.Empty;
+            var path = $"{ _configuration.GetSection("imagePath").Value }\\TiposReciclables\\";
+
+            var tipoReciclable = _tipoReciclableRepository.GetById(tipoReciclableDto.Id);
+
+            using (var scope = new TransactionScope())
             {
-                Id = tipoReciclableDto.Id,
-                Nombre = tipoReciclableDto.Nombre,
-                PuntosKg = tipoReciclableDto.Points,
-                Activo = true,
-                Imagen = tipoReciclableDto.Imagen
-            };
-            _tipoReciclableRepository.Update(tipo);
+                var tipo = new TipoReciclable()
+                {
+                    Id = tipoReciclableDto.Id,
+                    Nombre = tipoReciclableDto.Nombre,
+                    PuntosKg = tipoReciclableDto.Points,
+                    Activo = true,
+                    Imagen = !string.IsNullOrEmpty(imageFileName) ? imageFileName : tipoReciclable.Imagen,
+                };
+
+                _tipoReciclableRepository.Update(tipo);
+
+                if (!string.IsNullOrEmpty(imageFileName))
+                {
+                    File.WriteAllBytes(path + imageFileName, bytes);
+                }
+
+                scope.Complete();
+            }
         }
 
         public void Delete(int id)
@@ -101,5 +150,6 @@ namespace GreenPoints.Services
             tipo.Activo = false;
             _tipoReciclableRepository.Update(tipo);
         }
+
     }
 }

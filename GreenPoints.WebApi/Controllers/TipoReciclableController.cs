@@ -24,29 +24,29 @@ namespace GreenPoints.WebApi.Controllers
             return Ok(tipoReciclables);
         }
 
-        [HttpGet("{puntoId}")]
-        public ActionResult GetByPunto(int puntoId, bool onlyOpenedLote = true)
-        {
-            var tipoReciclables = _tipoReciclableService.GetByPunto(puntoId, onlyOpenedLote);
-
-            return Ok(tipoReciclables);
-        }
-
-        [HttpGet]
-        [Route("tipo/{id:int}")]
+        [HttpGet("{id}")]
         public ActionResult GetById(int id)
         {
-            var tipo = _tipoReciclableService.GetDetailById(id);
+            var tipoReciclable = _tipoReciclableService.GetById(id);
 
-            if (tipo == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return Ok(tipo);
-            }
+            return Ok(tipoReciclable);
         }
+
+        //[HttpGet]
+        //[Route("tipo/{id:int}")]
+        //public ActionResult GetById(int id)
+        //{
+        //    var tipo = _tipoReciclableService.GetDetailById(id);
+
+        //    if (tipo == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    else
+        //    {
+        //        return Ok(tipo);
+        //    }
+        //}
 
         [HttpGet]
         [Route("image")]
@@ -58,13 +58,9 @@ namespace GreenPoints.WebApi.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult PostTipoReciclable([FromBody] TipoReciclableModel tipoReciclableModel)
+        public ActionResult PostTipoReciclable([FromBody] CreateTipoReciclableDto tipoReciclableModel)
         {
-            _tipoReciclableService.AddTipoReciclable(new CreateTipoReciclableDto()
-            {
-                Nombre = tipoReciclableModel.Nombre,
-                Points = tipoReciclableModel.Points
-            });
+            _tipoReciclableService.AddTipoReciclable(tipoReciclableModel);
 
             return Ok();
         }

@@ -6,6 +6,8 @@ namespace GreenPoints.Services
     {
         List<TipoReciclableDto> Get();
 
+        TipoReciclableDto GetById(int id);
+
         List<TipoReciclableDto> GetByPunto(int puntoId, bool onlyOpenedLote);
 
         ImageUrlDto GetImage(string name);

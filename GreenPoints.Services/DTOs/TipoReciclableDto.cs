@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GreenPoints.Services
+﻿namespace GreenPoints.Services
 {
     public class TipoReciclableDto
     {
@@ -8,8 +6,8 @@ namespace GreenPoints.Services
         public string Nombre { get; set; }
         public int Points { get; set; }
         public string Imagen { get; set; }
-
-        public Boolean Activo { get; set; }
+        public bool Activo { get; set; }
         public bool HasActiveLote { get; set; }
+        public ImagenDto ImageData { get; set; }
     }
 }
