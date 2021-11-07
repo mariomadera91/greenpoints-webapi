@@ -6,5 +6,6 @@
         Usuario AddUsuario(Usuario usuario);
         Usuario GetByEmail(string email);
         void Update(Usuario usuario);
+        Usuario GetById(int id);
     }
 }

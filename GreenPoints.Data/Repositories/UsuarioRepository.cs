@@ -31,6 +31,14 @@ namespace GreenPoints.Data
             }
         }
 
+        public Usuario GetById(int id)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                return _context.Usuarios.Where(x => x.Id == id && x.Activo).FirstOrDefault();
+            }
+        }
+
         public void Update(Usuario usuario)
         {
             using (var _context = new GreenPointsContext())
