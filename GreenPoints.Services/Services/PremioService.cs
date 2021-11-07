@@ -151,7 +151,7 @@ namespace GreenPoints.Services
                 premio.Fecha = DateTime.Now;
                 premio.VigenciaDesde = DateTime.ParseExact(premioDto.FechaInicio, "dd-MM-yyyy",null);
                 premio.VigenciaHasta = !string.IsNullOrEmpty(premioDto.FechaVto) ? DateTime.ParseExact(premioDto.FechaVto, "dd-MM-yyyy", null) : null;
-                premio.SponsorId = 2;
+                premio.SponsorId = premioDto.SponsorId;
                 premio.Imagen = !string.IsNullOrEmpty(imageFileName) ? imageFileName : sponsor.Imagen;
                 premio.Puntos = premioDto.Puntos;
                 premio.Stock = premioDto.Codigos.Count;

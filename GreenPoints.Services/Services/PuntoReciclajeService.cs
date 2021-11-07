@@ -10,6 +10,7 @@ namespace GreenPoints.Services
     {
         private IPuntoReciclajeRepository _puntoReciclajeRepository;
         private IUsuarioRepository _usuarioRepository;
+
         public PuntoReciclajeService(IPuntoReciclajeRepository puntoReciclajeRepository,
                                       IUsuarioRepository usuarioRepository)
         {
@@ -18,11 +19,13 @@ namespace GreenPoints.Services
         }
         public void Create(CreatePuntoReciclajeDto puntoDto)
         {
+            var address = AddressHelper.GetAddress(puntoDto.Latitud, puntoDto.Longitud);
+
             var puntoReciclaje = new PuntoReciclaje()
             {
                 Nombre = puntoDto.CustomerName,
                 CUIT = puntoDto.Document,
-                Direccion = puntoDto.Direccion,
+                Direccion = address,
                 Latitud = puntoDto.Latitud,
                 Longitud = puntoDto.Longitud,
                 PuntoReciclajeTipoReciclables = new List<PuntoReciclajeTipoReciclable>(),
