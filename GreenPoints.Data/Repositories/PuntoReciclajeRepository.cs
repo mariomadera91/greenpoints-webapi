@@ -29,6 +29,7 @@ namespace GreenPoints.Data
             using (var _context = new GreenPointsContext())
             {
                 return _context.PuntosReciclaje
+                    .Include(x => x.Usuario)
                     .Include(x => x.PuntoReciclajeTipoReciclables).ThenInclude(y => y.Tipo)
                     .Where(x => x.Id == id).FirstOrDefault();
             }

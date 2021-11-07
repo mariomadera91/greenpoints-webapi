@@ -129,8 +129,16 @@ namespace GreenPoints.Services
                     Direccion = punto.Direccion,
                     Latitud = punto.Latitud,
                     Longitud = punto.Longitud,
-                    UsuarioId = punto.UsuarioId
+                    UsuarioId = punto.UsuarioId,
+                    Email = punto.Usuario.UserName
                 };
             }
+
+        public void Delete(int id)
+        {
+            var punto = _puntoReciclajeRepository.GetByPuntoReciclajeId(id);
+            punto.Usuario.Activo = false;
+            _usuarioRepository.Update(punto.Usuario);
+        }
     }
 }
