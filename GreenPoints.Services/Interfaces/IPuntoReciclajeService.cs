@@ -10,5 +10,7 @@ namespace GreenPoints.Services
         public void Update(PuntoUpdateDto puntoUpdate);
 
         public PuntoReciclajeGetDto GetByPuntoId(int Id);
+
+        public void Delete(int id);
     }
 }

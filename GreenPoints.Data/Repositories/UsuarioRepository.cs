@@ -19,7 +19,7 @@ namespace GreenPoints.Data
         {
             using (var _context = new GreenPointsContext())
             {
-                return _context.Usuarios.Where(x => x.UserName == userName && x.Password == password).FirstOrDefault();
+                return _context.Usuarios.Where(x => x.Activo && x.UserName == userName && x.Password == password).FirstOrDefault();
             }
         }
 

@@ -9,5 +9,6 @@ namespace GreenPoints.Services
         int GetPuntos(int socioId);
         public void Update(SocioUpdateDto socioUpdate);
         public SocioRecicladorGetDto GetBySocioId(int Id);
+        public void Delete(int id);
     }
 }

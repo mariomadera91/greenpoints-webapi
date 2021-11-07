@@ -10,13 +10,16 @@ namespace GreenPoints.Services
     {
         private readonly ISocioRecicladorRepository _socioRecicladorRepository;
         private readonly IPremioRepository _premioRepository;
+        private readonly IUsuarioRepository _usuarioRepository;
 
         public SocioRecicladorService(
             ISocioRecicladorRepository socioRecicladorRepository,
-            IPremioRepository premioRepository)
+            IPremioRepository premioRepository,
+            IUsuarioRepository usuarioRepository)
         {
             _socioRecicladorRepository = socioRecicladorRepository;
             _premioRepository = premioRepository;
+            _usuarioRepository = usuarioRepository;
         }
 
         public void Create(CreateSocioRecicladorDto socioDto)
@@ -85,7 +88,12 @@ namespace GreenPoints.Services
                 fechaNac = socio.FechaNac
             };
         }
-        
-        
+
+        public void Delete(int id)
+        {
+            var socio = _socioRecicladorRepository.GetById(id);
+            socio.Usuario.Activo = false;
+            _usuarioRepository.Update(socio.Usuario);
+        }
     }
 }

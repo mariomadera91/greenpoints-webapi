@@ -94,5 +94,13 @@ namespace GreenPoints.WebApi.Controllers
             var socio = _socioRecicladorService.GetBySocioId(socioRecicladorId);
             return Ok(socio);
         }
+
+        [AllowAnonymous]
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            _socioRecicladorService.Delete(id);
+            return Ok();
+        }
     }
 }
