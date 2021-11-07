@@ -7,5 +7,7 @@ namespace GreenPoints.Services
         void Create(CreateSocioRecicladorDto socioDto);
         List<SocioRecicladorDto> Get();
         int GetPuntos(int socioId);
+        public void Update(SocioUpdateDto socioUpdate);
+        public SocioRecicladorGetDto GetBySocioId(int Id);
     }
 }

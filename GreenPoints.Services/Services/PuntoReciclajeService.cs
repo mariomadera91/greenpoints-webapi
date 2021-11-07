@@ -2,6 +2,7 @@
 using GreenPoints.Domain;
 using System.Linq;
 using System.Collections.Generic;
+using System.Transactions;
 
 namespace GreenPoints.Services
 {
@@ -81,5 +82,52 @@ namespace GreenPoints.Services
 
             return description;
         }
+
+        public void Update(PuntoUpdateDto puntoUpdate)
+        {
+            var punto = _puntoReciclajeRepository.GetByPuntoReciclajeId(puntoUpdate.Id);
+
+            var puntoUp = new PuntoReciclaje()
+            {
+                Id = puntoUpdate.Id,
+                Nombre = punto.Nombre,
+                CUIT = punto.CUIT,
+                Direccion = punto.Direccion,
+                Latitud = puntoUpdate.Latitud,
+                Longitud = puntoUpdate.Longitud,
+                UsuarioId = punto.UsuarioId,
+                PuntoReciclajeTipoReciclables = punto.PuntoReciclajeTipoReciclables
+            };
+            using (var scope = new TransactionScope())
+            {
+
+                _puntoReciclajeRepository.DeleteTipoReciclable(punto.PuntoReciclajeTipoReciclables);
+                puntoUpdate.Materials.ForEach(material =>
+                {
+                    punto.PuntoReciclajeTipoReciclables.Add(new PuntoReciclajeTipoReciclable()
+                    {
+                        TipoId = material
+                    });
+                });
+
+                _puntoReciclajeRepository.Update(puntoUp);
+                scope.Complete();
+            }
+        }
+
+        public PuntoReciclajeGetDto GetByPuntoId(int Id)
+            {
+                var punto = _puntoReciclajeRepository.GetByPuntoReciclajeId(Id);
+                return new PuntoReciclajeGetDto()
+                {
+                    Id = punto.Id,
+                    Nombre = punto.Nombre,
+                    CUIT = punto.CUIT,
+                    Direccion = punto.Direccion,
+                    Latitud = punto.Latitud,
+                    Longitud = punto.Longitud,
+                    UsuarioId = punto.UsuarioId
+                };
+            }
     }
 }

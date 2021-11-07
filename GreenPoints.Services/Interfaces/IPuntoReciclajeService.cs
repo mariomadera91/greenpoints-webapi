@@ -7,5 +7,8 @@ namespace GreenPoints.Services
         void Create(CreatePuntoReciclajeDto puntoDto);
 
         List<PuntoReciclajeListDto> Get(int? tipoId);
+        public void Update(PuntoUpdateDto puntoUpdate);
+
+        public PuntoReciclajeGetDto GetByPuntoId(int Id);
     }
 }

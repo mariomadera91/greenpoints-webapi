@@ -28,7 +28,9 @@ namespace GreenPoints.Data
         {
             using (var _context = new GreenPointsContext())
             {
-                return _context.SociosRecicladores.Where(x => x.Id == id).FirstOrDefault();
+                return _context.SociosRecicladores
+                    .Include(x => x.Usuario)
+                    .Where(x => x.Id == id).FirstOrDefault();
             }
         }
 
@@ -61,5 +63,6 @@ namespace GreenPoints.Data
                 _context.SaveChanges();
             }
         }
+
     }
 }

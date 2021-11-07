@@ -24,6 +24,17 @@ namespace GreenPoints.Data
             }
         }
 
+        public PuntoReciclaje GetByPuntoReciclajeId(int id)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                return _context.PuntosReciclaje
+                    .Include(x => x.PuntoReciclajeTipoReciclables).ThenInclude(y => y.Tipo)
+                    .Where(x => x.Id == id).FirstOrDefault();
+            }
+        }
+
+
         public List<PuntoReciclaje> Get()
         {
             using (var _context = new GreenPointsContext())
@@ -32,6 +43,27 @@ namespace GreenPoints.Data
                     .Include(x => x.Usuario)
                     .Include(x => x.PuntoReciclajeTipoReciclables).ThenInclude(y => y.Tipo)
                     .Where(x => x.Usuario.Activo).ToList();
+            }
+        }
+
+        public void Update(PuntoReciclaje puntoReciclaje)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                _context.PuntosReciclaje.Update(puntoReciclaje);
+                _context.SaveChanges();
+            }
+        }
+
+        public void DeleteTipoReciclable(List<PuntoReciclajeTipoReciclable> puntoReciclajeTipos)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+               foreach (var tipo in puntoReciclajeTipos)
+                {
+                    _context.PuntosReciclajeTiposReciclables.Remove(tipo);
+                }
+                _context.SaveChanges();
             }
         }
     }

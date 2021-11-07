@@ -55,5 +55,22 @@ namespace GreenPoints.WebApi.Controllers
 
             return Ok(tipoReciclables);
         }
+
+        [AllowAnonymous]
+        [HttpPut]
+        public ActionResult Update([FromBody] PuntoUpdateDto puntoUpdateDto)
+        {
+            _puntoReciclajeService.Update(puntoUpdateDto);
+            return Ok();
+        }
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("Id")]
+        public ActionResult GetByPuntoId([FromQuery] int spuntoReciclajeId)
+        {
+
+            var punto = _puntoReciclajeService.GetByPuntoId(spuntoReciclajeId);
+            return Ok(punto);
+        }
     }
 }

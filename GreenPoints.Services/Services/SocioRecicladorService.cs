@@ -56,5 +56,36 @@ namespace GreenPoints.Services
 
             return socioReciclador.Puntos;
         }
+
+        public void Update(SocioUpdateDto socioUpdate)
+        {
+            var socio = _socioRecicladorRepository.GetById(socioUpdate.Id);
+
+            var socioUp = new SocioReciclador()
+            {
+                Id = socioUpdate.Id,
+                Nombre = socioUpdate.Nombre,
+                Apellido = socioUpdate.Apellido,
+                FechaNac = socio.FechaNac,
+                Puntos = socio.Puntos,
+                UsuarioId = socio.UsuarioId
+            };
+            _socioRecicladorRepository.Update(socioUp);
+        }
+
+        public SocioRecicladorGetDto GetBySocioId(int Id)
+        {
+            var socio = _socioRecicladorRepository.GetById(Id);
+            return new SocioRecicladorGetDto()
+            {
+                SocioId = socio.Id,
+                Nombre = socio.Nombre,
+                Apellido = socio.Apellido,
+                Email = socio.Usuario.UserName,
+                fechaNac = socio.FechaNac
+            };
+        }
+        
+        
     }
 }

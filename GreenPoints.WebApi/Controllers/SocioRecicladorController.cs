@@ -76,5 +76,23 @@ namespace GreenPoints.WebApi.Controllers
             var premio = _premioService.GetSocioPremio(socioPremioId);
             return Ok(premio);
         }
+
+        [AllowAnonymous]
+        [HttpPut]
+        public ActionResult Update([FromBody] SocioUpdateDto socioUpdateDto)
+        {
+            _socioRecicladorService.Update(socioUpdateDto);
+            return Ok();
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("Id")]
+        public ActionResult GetBySocioId([FromQuery] int socioRecicladorId)
+        {
+
+            var socio = _socioRecicladorService.GetBySocioId(socioRecicladorId);
+            return Ok(socio);
+        }
     }
 }
