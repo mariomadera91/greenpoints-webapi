@@ -12,15 +12,18 @@ namespace GreenPoints.Services
         private IIntercambioRepository _intercambioRepository;
         private ILoteRepository _loteRepository;
         private IMovimientoPuntosRepository _movimientoPuntosRepository;
+        private ISocioRecicladorRepository _socioRecicladorRepository;
 
         public IntercambioService(
             IIntercambioRepository intercambioRepository,
             ILoteRepository loteRepository,
-            IMovimientoPuntosRepository movimientoPuntosRepository)
+            IMovimientoPuntosRepository movimientoPuntosRepository,
+            ISocioRecicladorRepository socioRecicladorRepository)
         {
             _intercambioRepository = intercambioRepository;
             _loteRepository = loteRepository;
             _movimientoPuntosRepository = movimientoPuntosRepository;
+            _socioRecicladorRepository = socioRecicladorRepository;
         }
 
         public List<IntercambioListDto> GetBySocio(int socioId)
@@ -93,6 +96,11 @@ namespace GreenPoints.Services
                     Puntos = createIntercambioDto.TipoReciclaje.Sum(x => x.Puntos),
                     IntercambioTipoReciclables = new List<IntercambioTipoReciclable>()
                 };
+
+                var socio = _socioRecicladorRepository.GetById(createIntercambioDto.SocioId);
+                socio.Puntos += intercambio.Puntos;
+
+                _socioRecicladorRepository.Update(socio);
 
                 var intercambioNumber = _intercambioRepository.GetBySocio(intercambio.SocioId).Count() + 1;
 
