@@ -136,7 +136,7 @@ namespace GreenPoints.Services.Services
             var usuario = _usuarioRepository.GetById(usuarioPassDto.UsuarioId);
 
             if (usuario.Password == GetSHA256(usuarioPassDto.PasswordOld))
-                {
+            {
                     var usu = new Usuario()
                     {
                         Id = usuarioPassDto.UsuarioId,
@@ -147,11 +147,12 @@ namespace GreenPoints.Services.Services
                         LastPasswordReset = DateTime.Now
                     };
                     _usuarioRepository.Update(usu);
-                return ("ok");
-                }
+
+                return string.Empty;
+            }
             else
             {
-                return ("Passord Anterior no coincide");
+                return "Passord Anterior no coincide";
             }
         }
     }

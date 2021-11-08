@@ -51,11 +51,18 @@ namespace GreenPoints.WebApi.Controllers
             await _usuarioService.Reset(model.Email);
             return Ok();
         }
+
         [AllowAnonymous]
         [HttpPut]
         public ActionResult Update([FromBody] UsuarioPassUpdateDto usuarioPassDto)
         {
-            _usuarioService.Update(usuarioPassDto);
+            var response = _usuarioService.Update(usuarioPassDto);
+
+            if(!string.IsNullOrEmpty(response))
+            {
+                return BadRequest(response);
+            }
+
             return Ok();
         }
 
