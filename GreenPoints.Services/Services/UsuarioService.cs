@@ -131,20 +131,28 @@ namespace GreenPoints.Services.Services
 
         }
 
-        public void Update(UsuarioPassUpdateDto usuarioPassDto)
+        public string Update(UsuarioPassUpdateDto usuarioPassDto)
         {
             var usuario = _usuarioRepository.GetById(usuarioPassDto.UsuarioId);
 
-            var usu = new Usuario()
+            if (usuario.Password == GetSHA256(usuarioPassDto.PasswordOld))
+                {
+                    var usu = new Usuario()
+                    {
+                        Id = usuarioPassDto.UsuarioId,
+                        UserName = usuario.UserName,
+                        Password = GetSHA256(usuarioPassDto.Password),
+                        Rol = usuario.Rol,
+                        Activo = usuario.Activo,
+                        LastPasswordReset = DateTime.Now
+                    };
+                    _usuarioRepository.Update(usu);
+                return ("ok");
+                }
+            else
             {
-                Id = usuarioPassDto.UsuarioId,
-                UserName = usuario.UserName,
-                Password = GetSHA256(usuarioPassDto.Password),
-                Rol = usuario.Rol,
-                Activo = usuario.Activo,
-                LastPasswordReset = DateTime.Now
-            };
-            _usuarioRepository.Update(usu);
+                return ("Passord Anterior no coincide");
+            }
         }
     }
 }

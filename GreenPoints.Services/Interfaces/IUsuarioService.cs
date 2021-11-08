@@ -8,6 +8,6 @@ namespace GreenPoints.Services.Interfaces
 
         Task Reset(string email);
 
-        void Update(UsuarioPassUpdateDto usuarioPassDto);
+        string Update(UsuarioPassUpdateDto usuarioPassDto);
     }
 }
