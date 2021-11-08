@@ -93,6 +93,7 @@ namespace GreenPoints.Services
         {
             var socio = _socioRecicladorRepository.GetById(id);
             socio.Usuario.Activo = false;
+            socio.Usuario.UserName = DateTime.Now.ToString("yyyy_MM_dd_HH_mm") + "__" + socio.Usuario.UserName;
             _usuarioRepository.Update(socio.Usuario);
         }
     }

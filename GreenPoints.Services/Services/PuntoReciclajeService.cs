@@ -3,6 +3,7 @@ using GreenPoints.Domain;
 using System.Linq;
 using System.Collections.Generic;
 using System.Transactions;
+using System;
 
 namespace GreenPoints.Services
 {
@@ -138,6 +139,7 @@ namespace GreenPoints.Services
         {
             var punto = _puntoReciclajeRepository.GetByPuntoReciclajeId(id);
             punto.Usuario.Activo = false;
+            punto.Usuario.UserName = DateTime.Now.ToString("yyyy_MM_dd_HH_mm") + "__" + punto.Usuario.UserName;
             _usuarioRepository.Update(punto.Usuario);
         }
     }
