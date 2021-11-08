@@ -7,5 +7,7 @@ namespace GreenPoints.Services.Interfaces
         UsuarioDto Get(string userName, string password);
 
         Task Reset(string email);
+
+        void Update(UsuarioPassUpdateDto usuarioPassDto);
     }
 }
