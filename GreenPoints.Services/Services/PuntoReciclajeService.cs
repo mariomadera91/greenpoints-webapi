@@ -18,6 +18,7 @@ namespace GreenPoints.Services
             _puntoReciclajeRepository = puntoReciclajeRepository;
             _usuarioRepository = usuarioRepository;
         }
+
         public void Create(CreatePuntoReciclajeDto puntoDto)
         {
             var address = AddressHelper.GetAddress(puntoDto.Latitud, puntoDto.Longitud);
@@ -91,20 +92,22 @@ namespace GreenPoints.Services
         {
             var punto = _puntoReciclajeRepository.GetByPuntoReciclajeId(puntoUpdate.Id);
 
+            var address = AddressHelper.GetAddress(puntoUpdate.Latitud, puntoUpdate.Longitud);
+
             var puntoUp = new PuntoReciclaje()
             {
                 Id = puntoUpdate.Id,
                 Nombre = punto.Nombre,
                 CUIT = punto.CUIT,
-                Direccion = punto.Direccion,
+                Direccion = address,
                 Latitud = puntoUpdate.Latitud,
                 Longitud = puntoUpdate.Longitud,
                 UsuarioId = punto.UsuarioId,
                 PuntoReciclajeTipoReciclables = punto.PuntoReciclajeTipoReciclables
             };
+
             using (var scope = new TransactionScope())
             {
-
                 _puntoReciclajeRepository.DeleteTipoReciclable(punto.PuntoReciclajeTipoReciclables);
                 puntoUpdate.Materials.ForEach(material =>
                 {
@@ -115,6 +118,7 @@ namespace GreenPoints.Services
                 });
 
                 _puntoReciclajeRepository.Update(puntoUp);
+
                 scope.Complete();
             }
         }
