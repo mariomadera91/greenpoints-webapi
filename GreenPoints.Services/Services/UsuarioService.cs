@@ -133,14 +133,14 @@ namespace GreenPoints.Services.Services
 
         public string Update(UsuarioPassUpdateDto usuarioPassDto)
         {
-            var usuario = _usuarioRepository.GetById(usuarioPassDto.UsuarioId);
+            var usuario = _usuarioRepository.GetByEmail(usuarioPassDto.UserName);
 
             if (usuario.Password == GetSHA256(usuarioPassDto.PasswordOld))
             {
                     var usu = new Usuario()
                     {
-                        Id = usuarioPassDto.UsuarioId,
-                        UserName = usuario.UserName,
+                        Id = usuario.Id,
+                        UserName = usuarioPassDto.UserName,
                         Password = GetSHA256(usuarioPassDto.Password),
                         Rol = usuario.Rol,
                         Activo = usuario.Activo,
