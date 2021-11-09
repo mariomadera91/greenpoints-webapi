@@ -30,8 +30,8 @@ namespace GreenPoints.Services
 
         public void AddSponsor(CreateSponsorDto sponsorDto)
         {
-            byte[] bytes = (sponsorDto.Image != null) ? Convert.FromBase64String(sponsorDto.Image.base64) : null;
-            var imageFileName = (sponsorDto.Image != null) ? Guid.NewGuid() + ".png" : string.Empty;
+            byte[] bytes = (sponsorDto.Image != null && sponsorDto.Image.base64 != null) ? Convert.FromBase64String(sponsorDto.Image.base64) : null;
+            var imageFileName = (sponsorDto.Image != null && sponsorDto.Image.base64 != null) ? Guid.NewGuid() + ".png" : string.Empty;
             var pathSponsor = $"{ _configuration.GetSection("imagePath").Value }\\sponsors\\{ imageFileName }";
             var pathPremio = $"{ _configuration.GetSection("imagePath").Value }\\premios\\{ imageFileName }";
 
@@ -89,9 +89,10 @@ namespace GreenPoints.Services
 
         public void Update(SponsorDto sponsordto)
         {
-            byte[] bytes = (sponsordto.ImageData != null) ? Convert.FromBase64String(sponsordto.ImageData.base64) : null;
-            var imageFileName = (sponsordto.ImageData != null) ? Guid.NewGuid() + ".png" : string.Empty;
-            var path = $"{ _configuration.GetSection("imagePath").Value }\\sponsors\\";
+            byte[] bytes = (sponsordto.ImageData != null && sponsordto.ImageData.base64 != null) ? Convert.FromBase64String(sponsordto.ImageData.base64) : null;
+            var imageFileName = (sponsordto.ImageData != null && sponsordto.ImageData.base64 != null) ? Guid.NewGuid() + ".png" : string.Empty;
+            var pathSponsor = $"{ _configuration.GetSection("imagePath").Value }\\sponsors\\{ imageFileName }";
+            var pathPremio = $"{ _configuration.GetSection("imagePath").Value }\\premios\\{ imageFileName }";
 
             var sponsor = _sponsorRepository.GetById(sponsordto.Id);
 
@@ -107,8 +108,8 @@ namespace GreenPoints.Services
 
                 if (!string.IsNullOrEmpty(imageFileName))
                 {
-                    File.Delete(path + spon.Imagen);
-                    File.WriteAllBytes(path + imageFileName, bytes);
+                    File.WriteAllBytes(pathSponsor, bytes);
+                    File.WriteAllBytes(pathPremio, bytes);
                 }
 
                 _sponsorRepository.Update(spon);

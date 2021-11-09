@@ -133,8 +133,8 @@ namespace GreenPoints.Services
 
         public void Post(CreatePremioDto premioDto)
         {
-            byte[] bytes = (premioDto.Image != null) ? Convert.FromBase64String(premioDto.Image.base64) : null;
-            var imageFileName = (premioDto.Image != null) ? Guid.NewGuid() + ".png" : string.Empty;
+            byte[] bytes = (premioDto.Image != null && premioDto.Image.base64 != null) ? Convert.FromBase64String(premioDto.Image.base64) : null;
+            var imageFileName = (premioDto.Image != null && premioDto.Image.base64 != null) ? Guid.NewGuid() + ".png" : string.Empty;
             var path = $"{ _configuration.GetSection("imagePath").Value }\\premios\\{ imageFileName }";
             var sponsor = _sponsorRepository.GetById(premioDto.SponsorId);
 
@@ -198,8 +198,8 @@ namespace GreenPoints.Services
             premio.Stock = premioDto.Codigos.Count();
             premio.Puntos = premioDto.Puntos;
 
-            byte[] bytes = (premioDto.ImageData != null) ? Convert.FromBase64String(premioDto.ImageData.base64) : null;
-            var imageFileName = (premioDto.ImageData != null) ? Guid.NewGuid() + ".png" : string.Empty;
+            byte[] bytes = (premioDto.ImageData != null && premioDto.ImageData.base64 != null) ? Convert.FromBase64String(premioDto.ImageData.base64) : null;
+            var imageFileName = (premioDto.ImageData != null && premioDto.ImageData.base64 != null) ? Guid.NewGuid() + ".png" : string.Empty;
             var path = $"{ _configuration.GetSection("imagePath").Value }\\premios\\";
 
             premio.Imagen = !string.IsNullOrEmpty(imageFileName) ? imageFileName : premio.Imagen;
@@ -223,7 +223,6 @@ namespace GreenPoints.Services
 
                 if (!string.IsNullOrEmpty(imageFileName))
                 {
-                    File.Delete(path + premio.Imagen);
                     File.WriteAllBytes(path + imageFileName, bytes);
                 }
 

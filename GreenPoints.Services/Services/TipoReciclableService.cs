@@ -76,8 +76,8 @@ namespace GreenPoints.Services
 
         public void AddTipoReciclable(CreateTipoReciclableDto tipoReciclableDto)
         {
-            byte[] bytes = (tipoReciclableDto.Image != null) ? Convert.FromBase64String(tipoReciclableDto.Image.base64) : null;
-            var imageFileName = (tipoReciclableDto.Image != null) ? Guid.NewGuid() + ".png" : string.Empty;
+            byte[] bytes = (tipoReciclableDto.Image != null && tipoReciclableDto.Image.base64 != null) ? Convert.FromBase64String(tipoReciclableDto.Image.base64) : null;
+            var imageFileName = (tipoReciclableDto.Image != null && tipoReciclableDto.Image.base64 != null) ? Guid.NewGuid() + ".png" : string.Empty;
             var imagePath = $"{ _configuration.GetSection("imagePath").Value }\\TiposReciclables\\{ imageFileName }";
 
             var tipo = new TipoReciclable()
@@ -116,8 +116,8 @@ namespace GreenPoints.Services
         }
         public void Update(TipoReciclableDto tipoReciclableDto)
         {
-            byte[] bytes = (tipoReciclableDto.ImageData != null) ? Convert.FromBase64String(tipoReciclableDto.ImageData.base64) : null;
-            var imageFileName = (tipoReciclableDto.ImageData != null) ? Guid.NewGuid() + ".png" : string.Empty;
+            byte[] bytes = (tipoReciclableDto.ImageData != null && tipoReciclableDto.ImageData.base64 != null) ? Convert.FromBase64String(tipoReciclableDto.ImageData.base64) : null;
+            var imageFileName = (tipoReciclableDto.ImageData != null && tipoReciclableDto.ImageData.base64 != null) ? Guid.NewGuid() + ".png" : string.Empty;
             var path = $"{ _configuration.GetSection("imagePath").Value }\\TiposReciclables\\";
 
             var tipoReciclable = _tipoReciclableRepository.GetById(tipoReciclableDto.Id);
