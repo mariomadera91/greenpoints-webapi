@@ -139,7 +139,7 @@ namespace GreenPoints.Services.Services
             {
                     var usu = new Usuario()
                     {
-                        Id = usuarioPassDto.UsuarioId,
+                        Id = usuario.Id,
                         UserName = usuarioPassDto.UserName,
                         Password = GetSHA256(usuarioPassDto.Password),
                         Rol = usuario.Rol,
