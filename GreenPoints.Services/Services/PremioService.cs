@@ -32,7 +32,7 @@ namespace GreenPoints.Services
         {
             var premios = _premioRepository.Get();
 
-            return premios.Select(x => new PremioListDto()
+            return premios.OrderBy(x => x.Puntos).Select(x => new PremioListDto()
             {
                 Id = x.Id,
                 Nombre = x.Nombre,
