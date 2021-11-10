@@ -29,7 +29,7 @@ namespace GreenPoints.Services
             {
                 Apellido = socioDto.LastName,
                 Nombre = socioDto.FirstName,
-                FechaNac = DateTime.ParseExact(socioDto.BirthDate, "dd-MM-yyyy", null),
+                FechaNac = socioDto.BirthDate,
                 Puntos = 0,
                 Usuario = new Usuario()
                 {
