@@ -133,5 +133,34 @@ namespace GreenPoints.Services
             }
                 
         }
+
+        public List<SponsorDto> GetTop()
+        {
+            var topSponsors = _sponsorRepository.GetTop();
+
+            if (topSponsors.Count < 5)
+            {
+                var sponsors = _sponsorRepository.Get();
+                foreach (var sponsor in sponsors)
+                {
+                    if (!topSponsors.Contains(sponsor))
+                    {
+                        topSponsors.Add(sponsor);
+                    }
+                    if (topSponsors.Count == 5)
+                        break;
+                }
+            }
+
+            return topSponsors.Select(x => new SponsorDto()
+            {
+                Id = x.Id,
+                Nombre = x.Nombre,
+                Activo = x.Activo,
+                Imagen = $"{ _configuration.GetSection("siteUrl").Value }/sponsor/image?name={ x.Imagen }"
+            }).ToList();
+        }
+
+
     }
 }

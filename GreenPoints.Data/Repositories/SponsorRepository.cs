@@ -35,6 +35,31 @@ namespace GreenPoints.Data
             }
         }
 
+        public List<Sponsor> GetTop()
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                var pastMonth = DateTime.Now.AddDays(-30);
+
+                var sponsors = _context.PremiosCodigos
+                    .Include(x => x.Premio).ThenInclude(x => x.Sponsor)
+                    .Where(x => x.Premio.Fecha > pastMonth)
+                    .ToList()
+                    .GroupBy(x => x.Premio.SponsorId).Select(m => new
+                    {
+                        SponsorId = m.Key,
+                        Sponsor = m.First().Premio.Sponsor,
+                        Count = m.Count()
+                    })
+                    .OrderByDescending(x => x.Count)
+                    .Take(5)
+                    .Select(x => x.Sponsor)
+                    .ToList();
+
+                return sponsors;
+            }
+        }
+
         public void Update(Sponsor sponsorDto)
         {
             using (var _context = new GreenPointsContext())

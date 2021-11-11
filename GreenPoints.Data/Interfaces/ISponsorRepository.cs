@@ -11,5 +11,6 @@ namespace GreenPoints.Data
         List<Sponsor> Get();
         public Sponsor GetById(int id);
         public void Update(Sponsor sponsor);
+        List<Sponsor> GetTop();
     }
 }

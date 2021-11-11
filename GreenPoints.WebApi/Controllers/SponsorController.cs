@@ -79,5 +79,13 @@ namespace GreenPoints.WebApi.Controllers
             var imageDto = _sponsorService.GetImage(name);
             return File(imageDto.Image, imageDto.ContentType);
         }
+
+        [HttpGet]
+        [Route("top")]
+        public IActionResult GetTop()
+        {
+            var premios = _sponsorService.GetTop();
+            return Ok(premios);
+        }
     }
 }

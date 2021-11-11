@@ -15,5 +15,7 @@ namespace GreenPoints.Services.Interfaces
 
         void Delete(int id);
         ImageUrlDto GetImage(string name);
+
+        List<SponsorDto> GetTop();
     }
 }
