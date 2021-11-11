@@ -36,5 +36,15 @@ namespace GreenPoints.Data
                     .Where(x => x.SocioId == socioId).ToList();
             }
         }
+
+        public List<IntercambioTipoReciclable> GetByPunto(int puntoId)
+        {
+            using (var _context = new GreenPointsContext())
+            {
+                return _context.IntercambiosTiposReciclables
+                    .Include(x => x.Intercambio)
+                    .Where(x => x.Intercambio.PuntoId == puntoId).ToList();
+            }
+        }
     }
 }

@@ -10,27 +10,40 @@ namespace GreenPoints.Services
 {
     public class LoteService : ILoteService
     {
-        private ILoteRepository _loteRepository;
-        private IConfiguration _configuration;
+        private readonly ILoteRepository _loteRepository;
+        private readonly IConfiguration _configuration;
+        private readonly IIntercambioRepository _intercambioRepository;
 
         public LoteService(
             ILoteRepository loteRepository,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IIntercambioRepository intercambioRepository)
         {
             _loteRepository = loteRepository;
             _configuration = configuration;
+            _intercambioRepository = intercambioRepository;
         }
 
         public List<LoteListDto> Get(int puntoId)
         {
-            return _loteRepository.GetByPunto(puntoId).Select(x => new LoteListDto()
+            var intercambiosTiposReciclables = _intercambioRepository.GetByPunto(puntoId);
+            var lotes = _loteRepository.GetByPunto(puntoId);
+            var lotesListDto = new List<LoteListDto>();
+
+            foreach (var lote in lotes)
             {
-                Id = x.Id,
-                Fecha = x.Abierto ? x.FechaCreacion : x.FechaCierre,
-                TipoMaterialNombre = x.Tipo.Nombre,
-                Imagen = $"{ _configuration.GetSection("siteUrl").Value }/tipo-reciclable/image?name={ x.Tipo.Imagen }",
-                Abierto = x.Abierto
-            }).ToList();
+                lotesListDto.Add(new LoteListDto()
+                {
+                    Id = lote.Id,
+                    Fecha = lote.Abierto ? lote.FechaCreacion : lote.FechaCierre,
+                    TipoMaterialNombre = lote.Tipo.Nombre,
+                    Imagen = $"{ _configuration.GetSection("siteUrl").Value }/tipo-reciclable/image?name={ lote.Tipo.Imagen }",
+                    Abierto = lote.Abierto,
+                    Kilos = (decimal)intercambiosTiposReciclables.Where(x => x.LoteId == lote.Id).Sum(x => x.Peso)
+                });
+            }
+
+            return lotesListDto;
         }
 
         public LoteDto GetbyId(int loteId)
