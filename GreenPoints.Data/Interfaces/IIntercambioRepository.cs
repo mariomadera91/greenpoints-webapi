@@ -8,6 +8,6 @@ namespace GreenPoints.Data
         List<Intercambio> GetBySocio(int socioId);
         Intercambio GetById(int id);
         void Create(Intercambio intercambio);
-        List<IntercambioTipoReciclable> GetByPunto(int puntoId);
+        List<IntercambioTipoReciclable> GetByLote(int loteId);
     }
 }

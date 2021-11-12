@@ -26,7 +26,6 @@ namespace GreenPoints.Services
 
         public List<LoteListDto> Get(int puntoId)
         {
-            var intercambiosTiposReciclables = _intercambioRepository.GetByPunto(puntoId);
             var lotes = _loteRepository.GetByPunto(puntoId);
             var lotesListDto = new List<LoteListDto>();
 
@@ -38,8 +37,7 @@ namespace GreenPoints.Services
                     Fecha = lote.Abierto ? lote.FechaCreacion : lote.FechaCierre,
                     TipoMaterialNombre = lote.Tipo.Nombre,
                     Imagen = $"{ _configuration.GetSection("siteUrl").Value }/tipo-reciclable/image?name={ lote.Tipo.Imagen }",
-                    Abierto = lote.Abierto,
-                    Kilos = (decimal)intercambiosTiposReciclables.Where(x => x.LoteId == lote.Id).Sum(x => x.Peso)
+                    Abierto = lote.Abierto
                 });
             }
 
@@ -49,6 +47,7 @@ namespace GreenPoints.Services
         public LoteDto GetbyId(int loteId)
         {
             var lote = _loteRepository.GetById(loteId);
+            var intercambiosTiposReciclables = _intercambioRepository.GetByLote(lote.Id);
 
             return new LoteDto()
             {
@@ -58,7 +57,8 @@ namespace GreenPoints.Services
                 FechaCierre = lote.FechaCierre,
                 TipoMaterialNombre = lote.Tipo.Nombre,
                 PlantaNombre = (lote.Planta != null) ? lote.Planta.Nombre : null,
-                Imagen = $"{ _configuration.GetSection("siteUrl").Value }/tipo-reciclable/image?name={ lote.Tipo.Imagen }"
+                Imagen = $"{ _configuration.GetSection("siteUrl").Value }/tipo-reciclable/image?name={ lote.Tipo.Imagen }",
+                Kilos = intercambiosTiposReciclables.Sum(x => x.Peso).ToString()
             };
         }
 

@@ -9,6 +9,5 @@ namespace GreenPoints.Services
         public DateTime? Fecha { get; set; }
         public string Imagen { get; set; }
         public bool Abierto { get; set; }
-        public decimal Kilos { get; set; }
     }
 }

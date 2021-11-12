@@ -37,13 +37,12 @@ namespace GreenPoints.Data
             }
         }
 
-        public List<IntercambioTipoReciclable> GetByPunto(int puntoId)
+        public List<IntercambioTipoReciclable> GetByLote(int loteId)
         {
             using (var _context = new GreenPointsContext())
             {
                 return _context.IntercambiosTiposReciclables
-                    .Include(x => x.Intercambio)
-                    .Where(x => x.Intercambio.PuntoId == puntoId).ToList();
+                    .Where(x => x.LoteId == loteId).ToList();
             }
         }
     }

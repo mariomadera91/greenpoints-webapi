@@ -11,5 +11,6 @@ namespace GreenPoints.Services
         public DateTime? FechaCierre { get; set; }
         public string Imagen { get; set; }
         public bool Abierto { get; set; }
+        public string Kilos { get; set; }
     }
 }
