@@ -3,6 +3,7 @@ using GreenPoints.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Transactions;
 
 namespace GreenPoints.Services
 {
@@ -11,15 +12,18 @@ namespace GreenPoints.Services
         private readonly ISocioRecicladorRepository _socioRecicladorRepository;
         private readonly IPremioRepository _premioRepository;
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IMovimientoPuntosRepository _movimientoPuntosRepository;
 
         public SocioRecicladorService(
             ISocioRecicladorRepository socioRecicladorRepository,
             IPremioRepository premioRepository,
-            IUsuarioRepository usuarioRepository)
+            IUsuarioRepository usuarioRepository,
+            IMovimientoPuntosRepository movimientoPuntosRepository)
         {
             _socioRecicladorRepository = socioRecicladorRepository;
             _premioRepository = premioRepository;
             _usuarioRepository = usuarioRepository;
+            _movimientoPuntosRepository = movimientoPuntosRepository;
         }
 
         public void Create(CreateSocioRecicladorDto socioDto)
@@ -63,7 +67,7 @@ namespace GreenPoints.Services
         public void Update(SocioUpdateDto socioUpdate)
         {
             var socio = _socioRecicladorRepository.GetById(socioUpdate.Id);
-
+            _socioRecicladorRepository.Update(socio);
             var socioUp = new SocioReciclador()
             {
                 Id = socioUpdate.Id,
@@ -96,5 +100,25 @@ namespace GreenPoints.Services
             socio.Usuario.UserName = DateTime.Now.ToString("yyyy_MM_dd_HH_mm") + "__" + socio.Usuario.UserName;
             _usuarioRepository.Update(socio.Usuario);
         }
+        public void Referido(string referido)
+        {
+            using (var scope = new TransactionScope())
+            {
+                var usuario = _usuarioRepository.GetByEmail(referido);
+                var socio = _socioRecicladorRepository.GetById(usuario.Id);
+                socio.Puntos += 150;
+                _socioRecicladorRepository.Update(socio);
+                _movimientoPuntosRepository.Create(new MovimientoPuntos()
+                {
+                    Cantidad = 150,
+                    Fecha = DateTime.Now,
+                    SocioId = socio.Id,
+                    Descripcion = $"Referido " + referido,
+                    Tipo = TipoMovimiento.Referido
+                });
+                scope.Complete();
+            }
+        }
+
     }
 }

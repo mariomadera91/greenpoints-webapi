@@ -102,5 +102,15 @@ namespace GreenPoints.WebApi.Controllers
             _socioRecicladorService.Delete(id);
             return Ok();
         }
+
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("Referido")]
+        public ActionResult PostReferdio(string referidoMail)
+        {
+            _socioRecicladorService.Referido(referidoMail);
+            return Ok();
+        }
     }
 }

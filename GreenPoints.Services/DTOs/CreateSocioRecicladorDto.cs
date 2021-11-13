@@ -14,5 +14,6 @@ namespace GreenPoints.Services
         public string LastName { get; set; }
 
         public string Password { get; set; }
+        public string Referido { get; set; }
     }
 }
