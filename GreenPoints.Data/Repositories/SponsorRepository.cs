@@ -39,11 +39,8 @@ namespace GreenPoints.Data
         {
             using (var _context = new GreenPointsContext())
             {
-                var pastMonth = DateTime.Now.AddDays(-30);
-
                 var sponsors = _context.PremiosCodigos
                     .Include(x => x.Premio).ThenInclude(x => x.Sponsor)
-                    .Where(x => x.Premio.Fecha > pastMonth)
                     .ToList()
                     .GroupBy(x => x.Premio.SponsorId).Select(m => new
                     {
