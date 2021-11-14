@@ -4,7 +4,7 @@ namespace GreenPoints.Services
 {
     public interface IPremioService
     {
-        List<PremioListDto> Get();
+        List<PremioListDto> Get(bool admin = false);
 
         PremioDto GetDetailById(int id, bool admin);
 

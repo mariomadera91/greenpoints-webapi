@@ -17,9 +17,9 @@ namespace GreenPoints.WebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<PremioListDto>> Get()
+        public ActionResult<List<PremioListDto>> Get([FromQuery] bool admin = false)
         {
-            var premios = _premioService.Get();
+            var premios = _premioService.Get(admin);
 
             return Ok(premios);
         }

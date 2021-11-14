@@ -5,7 +5,7 @@ namespace GreenPoints.Data
 {
     public interface IPremioRepository
     {
-        List<Premio> Get();
+        List<Premio> Get(bool admin = false);
 
         Premio GetById(int id);
 

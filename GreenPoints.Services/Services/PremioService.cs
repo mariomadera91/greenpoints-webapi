@@ -28,9 +28,9 @@ namespace GreenPoints.Services
             _configuration = configuration;
         }
 
-        public List<PremioListDto> Get()
+        public List<PremioListDto> Get(bool admin = false)
         {
-            var premios = _premioRepository.Get();
+            var premios = _premioRepository.Get(admin);
 
             return premios.OrderBy(x => x.Puntos).Select(x => new PremioListDto()
             {

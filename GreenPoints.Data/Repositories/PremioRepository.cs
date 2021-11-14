@@ -8,14 +8,14 @@ namespace GreenPoints.Data
 {
     public class PremioRepository : IPremioRepository
     {
-        public List<Premio> Get()
+        public List<Premio> Get(bool admin = false)
         {
             using (var _context = new GreenPointsContext())
             {
                 return _context.Premios.Include(x => x.Sponsor)
-                    .Where(x => x.Activo && x.Stock > 0
+                    .Where(x => x.Activo && (admin || (x.Stock > 0
                                 && (x.VigenciaDesde <= DateTime.Now)
-                                && (!x.VigenciaHasta.HasValue || x.VigenciaHasta >= DateTime.Now))
+                                && (!x.VigenciaHasta.HasValue || x.VigenciaHasta >= DateTime.Now))))
                     .OrderByDescending(x => x.Fecha)
                     .ToList();
             }
