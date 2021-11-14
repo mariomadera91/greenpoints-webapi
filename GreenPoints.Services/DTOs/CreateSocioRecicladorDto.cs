@@ -9,6 +9,6 @@ namespace GreenPoints.Services
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Password { get; set; }
-        public int ReferidoId { get; set; }
+        public int? ReferidoId { get; set; }
     }
 }

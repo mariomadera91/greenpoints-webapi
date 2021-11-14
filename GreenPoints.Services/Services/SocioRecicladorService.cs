@@ -45,19 +45,22 @@ namespace GreenPoints.Services
                     }
                 };
 
-                var socio = _socioRecicladorRepository.GetById(socioDto.ReferidoId);
-                socio.Puntos += 150;
-
-                _socioRecicladorRepository.Update(socio);
-                
-                _movimientoPuntosRepository.Create(new MovimientoPuntos()
+                if(socioDto.ReferidoId.HasValue && socioDto.ReferidoId > 0)
                 {
-                    Cantidad = 150,
-                    Fecha = DateTime.Now,
-                    SocioId = socio.Id,
-                    Descripcion = $"Referido por " + socioDto.Email,
-                    Tipo = TipoMovimiento.Referido
-                });
+                    var socio = _socioRecicladorRepository.GetById(socioDto.ReferidoId.Value);
+                    socio.Puntos += 150;
+
+                    _socioRecicladorRepository.Update(socio);
+
+                    _movimientoPuntosRepository.Create(new MovimientoPuntos()
+                    {
+                        Cantidad = 150,
+                        Fecha = DateTime.Now,
+                        SocioId = socio.Id,
+                        Descripcion = $"Referido por " + socioDto.Email,
+                        Tipo = TipoMovimiento.Referido
+                    });
+                }
 
                 _socioRecicladorRepository.Add(socioReciclador);
 
