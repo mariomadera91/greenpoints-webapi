@@ -28,23 +28,41 @@ namespace GreenPoints.Services
 
         public void Create(CreateSocioRecicladorDto socioDto)
         {
-
-            var socioReciclador = new SocioReciclador()
+            using (var scope = new TransactionScope())
             {
-                Apellido = socioDto.LastName,
-                Nombre = socioDto.FirstName,
-                FechaNac = socioDto.BirthDate,
-                Puntos = 0,
-                Usuario = new Usuario()
+                var socioReciclador = new SocioReciclador()
                 {
-                    UserName = socioDto.Email,
-                    Password = socioDto.Password,
-                    Rol = UserRol.SocioReciclador,
-                    Activo = true
-                }
-            };
+                    Apellido = socioDto.LastName,
+                    Nombre = socioDto.FirstName,
+                    FechaNac = socioDto.BirthDate,
+                    Puntos = 0,
+                    Usuario = new Usuario()
+                    {
+                        UserName = socioDto.Email,
+                        Password = socioDto.Password,
+                        Rol = UserRol.SocioReciclador,
+                        Activo = true
+                    }
+                };
 
-            _socioRecicladorRepository.Add(socioReciclador);
+                var socio = _socioRecicladorRepository.GetById(socioDto.ReferidoId);
+                socio.Puntos += 150;
+
+                _socioRecicladorRepository.Update(socio);
+                
+                _movimientoPuntosRepository.Create(new MovimientoPuntos()
+                {
+                    Cantidad = 150,
+                    Fecha = DateTime.Now,
+                    SocioId = socio.Id,
+                    Descripcion = $"Referido por " + socioDto.Email,
+                    Tipo = TipoMovimiento.Referido
+                });
+
+                _socioRecicladorRepository.Add(socioReciclador);
+
+                scope.Complete();
+            }
         }
 
         public List<SocioRecicladorDto> Get()

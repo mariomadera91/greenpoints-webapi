@@ -30,7 +30,8 @@ namespace GreenPoints.WebApi.Controllers
                 Email = socioModel.Email,
                 FirstName = socioModel.FirstName,
                 LastName = socioModel.LastName,
-                Password = HashHelper.GetSHA256(socioModel.Password)
+                Password = HashHelper.GetSHA256(socioModel.Password),
+                ReferidoId = socioModel.ReferidoId
             });
 
             return Ok();
@@ -104,13 +105,13 @@ namespace GreenPoints.WebApi.Controllers
         }
 
 
-        [AllowAnonymous]
-        [HttpPost]
-        [Route("Referido")]
-        public ActionResult PostReferdio(string referidoMail)
-        {
-            _socioRecicladorService.Referido(referidoMail);
-            return Ok();
-        }
+        //[AllowAnonymous]
+        //[HttpPost]
+        //[Route("Referido")]
+        //public ActionResult PostReferdio(string referidoMail)
+        //{
+        //    _socioRecicladorService.Referido(referidoMail);
+        //    return Ok();
+        //}
     }
 }
